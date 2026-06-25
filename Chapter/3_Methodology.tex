@@ -1,0 +1,495 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Overview}
+
+Phần này mô tả tổng quan giải pháp gồm những bước chính nào, hoạt động ra sao. Mục tiêu của phần này là cho người đọc một cái nhìn tổng thể về giải pháp. Để cho dễ hiểu thì nên có một biểu đồ mô tả luồng hoạt động của giải pháp đề xuất. 
+
+\section{Surface Direction Field Extraction}
+
+A central component of the proposed topology-aware extraction framework is the construction of a smooth directional field over the input surface. Rather than relying directly on the connectivity of the input triangular mesh, the proposed method estimates a dominant tangent direction from the geometric configuration of each sampled face. The resulting direction field is later used as a structural prior for topology-aware mesh optimization.
+
+\subsection{Surface Sampling}
+
+Given an input triangular mesh
+
+\[
+\mathcal{M}=(V,E,F),
+\]
+
+where $V$, $E$, and $F$ denote the sets of vertices, edges, and faces, respectively, a large number of points are sampled uniformly over the mesh surface using area-weighted sampling. Each sampled point inherits the face from which it is generated, allowing access to the corresponding face normal and edge information.
+
+For every sampled point, the following information is collected:
+
+\begin{itemize}
+	\item the sampled surface position,
+	\item the associated triangular face,
+	\item the face normal,
+	\item the three edge vectors of the face.
+\end{itemize}
+
+Since each sampled point is processed independently, the computation can be efficiently parallelized.
+
+\subsection{Local Coordinate Normalization}
+
+Because neighboring faces have different orientations in three-dimensional space, the edge directions cannot be compared directly. To establish a common reference frame, each sampled face is transformed into a local coordinate system.
+
+Let $\mathbf{n}$ denote the unit normal of the sampled face. A rotation matrix $\mathbf{R}$ is computed such that
+
+\[
+\mathbf{R(n)}
+=
+\begin{bmatrix}
+	1\\
+	0\\
+	0
+\end{bmatrix},
+\]
+
+mapping every face normal onto the positive $x$-axis.
+
+The rotation matrix is computed using Rodrigues' rotation formula. Degenerate cases require special treatment. If the face normal is already aligned with the target direction, the identity matrix is used. If the two vectors are anti-parallel, a $180^\circ$ rotation around an arbitrary orthogonal axis is constructed.
+
+After applying the transformation, all edge vectors lie approximately on the local tangent plane, corresponding to the $yz$-plane. This normalization removes the influence of the global object orientation and allows edge directions from different faces to be analyzed consistently.
+
+\subsection{Edge Direction Representation}
+
+Let
+
+\[
+\mathbf{e}_i,\quad i=1,2,3
+\]
+
+denote the three normalized edge vectors after rotation into the local coordinate system. Since each edge lies on the tangent plane, its orientation can be represented using a single angular value.
+
+Given
+
+\[
+\mathbf{e}_i=
+\begin{bmatrix}
+	0\\
+	y_i\\
+	z_i
+\end{bmatrix},
+\]
+
+the corresponding direction angle is computed as
+
+\[
+\delta_i
+=
+\operatorname{atan2}(y_i,z_i).
+\]
+
+Each triangular face therefore produces three candidate directions.
+
+Unlike quadrilateral meshes, triangular meshes do not explicitly encode a pair of principal directions. Consequently, selecting one of the three edge directions arbitrarily would introduce discontinuities into the resulting direction field. A strategy is therefore required to identify the dominant orientation shared among neighboring triangles.
+
+\subsection{Orthogonal Direction Normalization}
+
+The proposed method is motivated by the observation that meshes intended for animation and subdivision are predominantly quadrilateral. A quadrilateral mesh naturally possesses two orthogonal principal directions, and directions differing by multiples of $90^\circ$ should be regarded as equivalent.
+
+To collapse these equivalent orientations into a common representation, every angular value is normalized using
+
+\[
+\delta_i'
+=
+4\left(
+(\delta_i+\pi)
+\bmod
+\frac{\pi}{2}
+\right)
+-\pi.
+\]
+
+The multiplication by four maps all orthogonal directions,
+
+\[
+\theta,\;
+\theta+\frac{\pi}{2},\;
+\theta+\pi,\;
+\theta+\frac{3\pi}{2},
+\]
+
+onto the same angular domain.
+
+Although this assumption is exact only for quadrilateral meshes, it provides a useful approximation for triangular meshes. In a triangulated quad mesh, the additional diagonal edge introduces an extra direction that behaves as noise. However, the two principal edge directions remain dominant. When a sufficiently large number of surface samples is considered, these dominant orientations form a coherent directional field despite the local ambiguity introduced by triangulation.
+
+\subsection{Direction Averaging}
+
+After normalization, each angle is converted back into a unit vector on the tangent plane,
+
+\[
+\mathbf{d}_i
+=
+\begin{bmatrix}
+	0\\
+	\sin(\delta_i')\\
+	\cos(\delta_i')
+\end{bmatrix}.
+\]
+
+Rather than selecting one of the three edge directions, the proposed method averages all three vectors,
+
+\[
+\bar{\mathbf{d}}
+=
+\frac{1}{3}
+\sum_{i=1}^{3}
+\mathbf{d}_i.
+\]
+
+The averaged vector is then normalized,
+
+\[
+\bar{\mathbf{d}}
+\leftarrow
+\frac{\bar{\mathbf{d}}}
+{\|\bar{\mathbf{d}}\|}.
+\]
+
+Finally, the direction is transformed back into the original coordinate system by applying the inverse rotation,
+
+\[
+\mathbf{d}_{\mathrm{global}}
+=
+R^{-1}
+\bar{\mathbf{d}}.
+\]
+
+The resulting vector defines the dominant tangent direction associated with the sampled surface point.
+
+Because the averaging is performed after orthogonal normalization, neighboring samples tend to converge toward the same principal orientation rather than the individual edge directions of the triangular mesh. Consequently, the extracted direction field is considerably smoother and less sensitive to triangulation artifacts. This continuous directional field serves as the foundation for the topology-aware optimization procedure presented in the following sections.
+
+\section{Learning Surface Direction Priors from ShapeNet}
+
+The direction field extraction method presented in the previous section produces reliable tangent directions for individual meshes. However, these directions are estimated solely from local geometric information and do not capture higher-level structural patterns commonly observed in well-designed polygonal models. To incorporate such prior knowledge, a learning-based approach is proposed to predict the dominant surface direction directly from point cloud geometry.
+
+The proposed model is trained on a collection of meshes from the ShapeNet dataset. For each model, the surface direction field generated by the procedure described in Section~3.1 serves as the supervision signal. Consequently, the network learns the relationship between local geometric features and the underlying topology-aware direction field without requiring explicit mesh connectivity during inference.
+
+\subsection{Training Data Generation}
+
+Training samples are generated from the ShapeNet dataset by uniformly sampling points on each mesh surface. For every sampled point, the following attributes are computed:
+
+\begin{itemize}
+	\item the three-dimensional point coordinates,
+	\item the surface normal,
+	\item the dominant tangent direction represented by a single angular value.
+\end{itemize}
+
+The surface normals and direction angles are obtained using the geometric procedure introduced in the previous section. Since both quantities are derived directly from the mesh geometry, no manual annotation is required.
+
+Each training sample therefore consists of
+
+\[
+(\mathbf{p},\mathbf{n},\theta),
+\]
+
+where
+
+\begin{itemize}
+	\item $\mathbf{p}\in\mathbb{R}^3$ denotes the point position,
+	\item $\mathbf{n}\in\mathbb{R}^3$ denotes the unit surface normal,
+	\item $\theta\in[-\pi,\pi]$ denotes the normalized tangent direction.
+\end{itemize}
+
+This representation allows the network to learn both the local surface orientation and the principal tangent direction simultaneously.
+
+\subsection{Transformer Architecture}
+
+A transformer-based network is adopted to model long-range geometric relationships within the point cloud. Unlike conventional multilayer perceptrons, transformers employ self-attention mechanisms that enable each point to aggregate information from every other point in the object. Such global context is particularly beneficial because the dominant topology direction often depends on the overall object structure rather than purely local geometry.
+
+Figure~\ref{fig:transformer_pipeline} illustrates the overall architecture.
+
+The input point cloud
+
+\[
+P=\{\mathbf{p}_1,\mathbf{p}_2,\ldots,\mathbf{p}_N\}
+\]
+
+is first embedded into a higher-dimensional feature space using a shared multilayer perceptron,
+
+\[
+\mathbf{f}_i
+=
+\phi(\mathbf{p}_i),
+\]
+
+where
+
+\[
+\phi:\mathbb{R}^3\rightarrow\mathbb{R}^d
+\]
+
+denotes the learnable feature embedding.
+
+The embedded features are then processed by a stack of Transformer encoder layers,
+
+\[
+\mathbf{F}
+=
+\operatorname{TransformerEncoder}
+(\mathbf{f}_1,\ldots,\mathbf{f}_N),
+\]
+
+allowing every point to attend to all other points in the object. Through multiple self-attention layers, the network captures both local geometric structures and global semantic relationships.
+
+Finally, a prediction head maps each encoded feature into four output values,
+
+\[
+(\hat{n}_x,\hat{n}_y,\hat{n}_z,\hat{\theta}),
+\]
+
+where the first three components represent the predicted surface normal, while the last component represents the tangent direction angle.
+
+The predicted normal vector is normalized to unit length,
+
+\[
+\hat{\mathbf n}
+=
+\frac{\hat{\mathbf n}}
+{\|\hat{\mathbf n}\|},
+\]
+
+whereas the predicted angle is constrained to
+
+\[
+[-\pi,\pi]
+\]
+
+using the hyperbolic tangent activation,
+
+\[
+\hat{\theta}
+=
+\pi\tanh(x).
+\]
+
+\subsection{Loss Function}
+
+The network is trained to jointly predict the surface normal and tangent direction.
+
+The normal prediction is optimized using the cosine similarity loss,
+
+\[
+L_{\mathrm{normal}}
+=
+1-
+\hat{\mathbf n}\cdot\mathbf n,
+\]
+
+which measures the angular deviation between the predicted and ground-truth normals.
+
+Since angular quantities are periodic, directly minimizing the Euclidean difference between two angles may produce incorrect gradients near the discontinuity at
+
+\[
+-\pi\equiv\pi.
+\]
+
+Therefore, the angular error is computed using the wrapped angular difference,
+
+\[
+\Delta\theta
+=
+((\hat{\theta}-\theta+\pi)
+\bmod
+2\pi)-\pi,
+\]
+
+and the corresponding angle loss is defined as
+
+\[
+L_{\mathrm{angle}}
+=
+(\Delta\theta)^2.
+\]
+
+The overall training objective combines both losses,
+
+\[
+L
+=
+L_{\mathrm{normal}}
++
+L_{\mathrm{angle}},
+\]
+
+encouraging the network to simultaneously recover accurate surface normals and topology-aware tangent directions.
+
+\subsection{Reference Embedding and Query Inference}
+
+Besides conventional batch prediction, the proposed network supports an efficient inference strategy based on reference embedding.
+
+Given a reference mesh, all sampled points are first processed by the transformer encoder to obtain latent feature embeddings,
+
+\[
+\mathbf{F}_{ref}
+=
+\{\mathbf{f}_1,\ldots,\mathbf{f}_N\},
+\]
+
+which are stored in memory.
+
+When new query points are presented, only the query coordinates are embedded. Instead of recomputing the transformer over the entire point cloud, each query feature performs multi-head cross-attention with the cached reference embeddings,
+
+\[
+\mathbf{f}_{query}'
+=
+\operatorname{CrossAttention}
+(
+\mathbf{f}_{query},
+\mathbf{F}_{ref}
+).
+\]
+
+The refined feature is then passed through the prediction head to estimate both the surface normal and tangent direction.
+
+This design significantly reduces the computational cost during inference because the expensive transformer encoding of the reference model is performed only once. Multiple query points can subsequently be evaluated using lightweight cross-attention operations while maintaining consistency with the learned global geometry.
+
+
+\section{Topology-Aware Optimization using Learned Direction Priors}
+
+The directional field predictor described in the previous section learns a topology-aware prior from the ShapeNet dataset. While the predictor itself does not generate a mesh, it provides an estimate of the dominant tangent direction at arbitrary surface points. The proposed framework incorporates this learned prior into the FlexiCubes optimization process by introducing an additional direction-consistency objective. Instead of modifying the network architecture of FlexiCubes, the optimization variables of FlexiCubes are refined so that the extracted mesh follows the predicted directional field while preserving the reconstructed geometry.
+
+\subsection{FlexiCubes Parameterization}
+
+Given a latent feature representation generated by the decoder, the FlexiCubes framework predicts three groups of parameters:
+
+\begin{itemize}
+	\item the signed distance field (SDF),
+	\item vertex deformation vectors,
+	\item adaptive cube weights.
+\end{itemize}
+
+The signed distance field determines the implicit surface, $S(\mathbf{x})$, while the deformation vectors adjust the positions of the regular voxel grid vertices,
+\[
+\mathbf{v}_i'
+=
+\mathbf{v}_i+\Delta\mathbf{v}_i.
+\]
+The adaptive cube weights control the local triangulation configuration during mesh extraction. Together, these parameters completely determine the output mesh generated by FlexiCubes.
+
+Using these parameters, the differentiable FlexiCubes algorithm reconstructs a triangular mesh,
+\[
+\mathcal{M}
+=
+(V,F),
+\]
+where \(V\) and \(F\) denote the generated vertices and faces, respectively.
+
+\subsection{Reference Point Cloud Generation}
+
+Before optimization begins, an initial mesh is extracted using the predicted SDF, deformation, and adaptive weights. A dense point cloud is then uniformly sampled from the generated surface,
+\[
+P_r
+=
+\{\mathbf{p}_1,\ldots,\mathbf{p}_N\}.
+\]
+This point cloud serves as a geometric reference throughout the optimization process.
+
+The pretrained transformer described in Section~3.2 encodes this reference point cloud once to produce a set of latent feature embeddings,
+
+\[
+\mathbf{F}_{ref}
+=
+\{\mathbf{f}_1,\ldots,\mathbf{f}_N\},
+\]
+
+which are cached for subsequent inference. Since the reference embedding remains fixed during optimization, repeated encoding of the complete point cloud is unnecessary, significantly reducing the computational cost.
+
+\subsection{Iterative Mesh Optimization}
+
+The optimization variables consist of the dense signed distance field $S$,
+
+the vertex deformation field $\Delta V$,
+and the adaptive cube weights $W$.
+
+These variables are treated as trainable parameters and are optimized using gradient descent while the pretrained transformer remains fixed.
+
+At each optimization iteration, FlexiCubes reconstructs an updated mesh,
+\[
+\mathcal{M}^{(t)}
+=
+(V^{(t)},F^{(t)}),
+\]
+from the current parameter values.
+
+A new set of surface points is sampled from the reconstructed mesh,
+\[
+P^{(t)}
+=
+\{\mathbf{q}_1,\ldots,\mathbf{q}_M\}.
+\]
+For every sampled point, the geometric procedure described in Section~3.1 computes the corresponding surface normal $\mathbf{n}^{(t)}$, and tangent direction $\theta^{(t)}$.
+
+The same sampled points are then passed through the pretrained transformer to predict their expected topology-aware normal and tangent direction,
+\[
+(\hat{\mathbf n}^{(t)},\hat{\theta}^{(t)}).
+\]
+The optimization therefore compares the geometric properties of the generated mesh with the learned structural prior.
+
+\subsection{Direction Consistency Loss}
+
+The first objective minimizes the discrepancy between the predicted and computed surface normals,
+
+\[
+L_{\mathrm{normal}}
+=
+\frac{1}{M}
+\sum_{i=1}^{M}
+\|
+\hat{\mathbf n}_i
+-
+\mathbf n_i
+\|^2.
+\]
+
+Similarly, the tangent direction consistency is enforced by minimizing the mean squared angular difference,
+
+\[
+L_{\mathrm{angle}}
+=
+\frac{1}{M}
+\sum_{i=1}^{M}
+(\hat{\theta}_i-\theta_i)^2.
+\]
+
+Unlike the previous network training stage, the pretrained transformer is no longer updated. Instead, these losses propagate gradients through the differentiable FlexiCubes pipeline to modify the SDF, deformation vectors, and adaptive cube weights.
+
+Consequently, the extracted mesh gradually evolves toward a topology that is more consistent with the learned directional prior.
+
+\subsection{Geometry Preservation}
+
+Optimizing only the direction field may introduce undesirable geometric distortions. To preserve the original reconstructed shape, an additional Chamfer distance is computed between the current mesh and the initial reference point cloud.
+
+Let $P_r$ denote the reference point cloud and $P^{(t)}$ denote the current sampled point cloud. The geometric loss is defined as
+
+\[
+L_{\mathrm{Chamfer}}
+=
+d_{\mathrm{CD}}
+(P_r,P^{(t)}),
+\]
+
+where $d_{\mathrm{CD}}$ is the symmetric Chamfer distance.
+
+This loss constrains the optimization to remain close to the original reconstructed geometry while allowing local modifications that improve mesh topology.
+
+\subsection{Overall Objective Function}
+
+The final optimization objective combines the three loss terms,
+
+\[
+L
+=
+L_{\mathrm{normal}}
++
+L_{\mathrm{angle}}
++
+L_{\mathrm{Chamfer}}.
+\]
+
+Because every component of the pipeline is differentiable, gradients can be propagated from the loss function through the FlexiCubes extraction process to the SDF values, deformation vectors, and adaptive cube weights. These parameters are optimized using the Adam optimizer with an exponentially decaying learning rate until convergence.
+
+
+\end{document}

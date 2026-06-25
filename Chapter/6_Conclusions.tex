@@ -1,0 +1,27 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Summary}
+
+This thesis investigated the problem of topology-aware isosurface extraction for implicit surface representations. While recent differentiable methods such as FlexiCubes are capable of reconstructing high-quality meshes from signed distance fields, they primarily optimize geometric accuracy and do not explicitly consider mesh topology. Consequently, the generated meshes often require manual retopology before they can be used effectively in downstream applications such as modeling, animation, and rigging.
+
+To address this limitation, this thesis proposed a topology-aware extension of the FlexiCubes framework. First, a preprocessing method was developed to extract local directional information from triangular meshes by transforming face normals into a canonical coordinate system and estimating a continuous directional field. The extracted direction data was then used to construct a training dataset for a transformer-based neural network capable of predicting both surface normals and local edge directions directly from point clouds. Finally, the pretrained network was incorporated into the FlexiCubes optimization process by introducing additional directional constraints on the signed distance field, vertex deformation, and cube weights. This optimization encourages the extracted mesh to follow coherent edge flow while preserving the geometric advantages of the original FlexiCubes algorithm.
+
+Experimental evaluations were conducted on representative ShapeNet models. The proposed method was compared with the original FlexiCubes algorithm using multiple levels of mesh simplification and quantitative geometric evaluation metrics, including Root Mean Square (RMS) error, Hausdorff distance, and surface normal deviation. The experimental results demonstrate that the proposed approach consistently maintains geometric fidelity while achieving lower reconstruction error after mesh simplification. Visual inspection further indicates that the generated meshes exhibit more coherent edge directions and improved structural organization, making them more suitable for subsequent modeling and animation workflows.
+
+Although the proposed framework successfully incorporates directional information into the mesh extraction process, several limitations remain. The learned direction field is only an approximation derived from triangular meshes and therefore still contains noise introduced by mesh triangulation. Furthermore, the current optimization focuses on local directional consistency rather than explicit quad topology generation. Consequently, while the resulting meshes exhibit improved edge flow, they remain triangular meshes and do not directly satisfy the topological requirements of professional quad-based modeling pipelines.
+
+
+\section{Suggestion for Future Works}
+
+Although the proposed framework demonstrates promising results in improving mesh topology while preserving geometric accuracy, several research directions remain for future investigation.
+
+The first direction is to integrate the proposed topology-aware optimization into the complete TRELLIS generation pipeline. In the current implementation, the pretrained directional prediction model is applied as a post-processing optimization step on the FlexiCubes mesh extraction module. A more effective approach would be to fine-tune the TRELLIS Flow Mesh module directly so that directional and topological information are learned during mesh generation. Such an end-to-end optimization framework would enable the network to produce topology-aware meshes directly from the latent representation, reducing the need for iterative refinement.
+
+A second direction is to evaluate the proposed method on more challenging object categories. The experiments presented in this thesis primarily focus on relatively rigid ShapeNet objects. More complex models, particularly articulated objects such as human bodies and animated characters, contain significantly more complicated topological structures and deformation requirements. Applying the proposed framework to these datasets would provide a more comprehensive evaluation of its effectiveness for practical character modeling and animation applications.
+
+Another promising research direction is to investigate more flexible spatial discretization methods for isosurface extraction. The current FlexiCubes framework operates on a regular voxel grid, which inherently limits the ability of the extracted mesh to follow the predicted directional field. Adaptive or deformable grid structures, such as octree-based grids, anisotropic voxelizations, or dynamically optimized lattice representations, may better align with local directional information and further improve edge flow consistency while maintaining reconstruction accuracy.
+
+Finally, future work may also investigate additional topology-aware objectives, including explicit edge-loop preservation, quad-dominant mesh generation, and semantic feature alignment. Incorporating these constraints into differentiable mesh extraction could further reduce the need for manual retopology and improve the applicability of neural implicit surface representations in professional 3D content creation pipelines.
+
+\end{document}

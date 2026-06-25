@@ -1,0 +1,165 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+
+This chapter presents the research context and the theoretical foundations relevant to this thesis. First, the scope of the research is defined to clarify the objectives and limitations of the proposed work. Next, existing studies on isosurface extraction, differentiable surface reconstruction, and mesh generation are reviewed and analyzed. Finally, the chapter introduces the fundamental concepts of implicit surface representations, isosurface extraction algorithms, and mesh topology requirements for modeling and rigging. These concepts provide the theoretical basis for the topology-aware FlexiCubes framework proposed in later chapters.
+
+\section{Scope of Research}
+
+This thesis focuses on the problem of extracting topology-aware polygonal meshes from implicit surface representations. The research is situated at the intersection of computer graphics, geometric modeling, and geometry processing. Specifically, the work investigates how isosurface extraction methods can be adapted to generate meshes that are not only geometrically accurate but also suitable for downstream content creation tasks.
+
+The scope of this thesis is limited to mesh extraction from volumetric scalar fields and signed distance fields represented on regular grids. The study concentrates on modifications to the FlexiCubes algorithm~\cite{shen2023flexicubes} because of its differentiable formulation and its ability to produce high-quality surface reconstructions. The proposed method aims to improve the structural organization of the generated mesh while preserving the geometric advantages of the original approach.
+
+This thesis does not attempt to solve the complete retopology problem. Instead, the research focuses on integrating topology-aware considerations directly into the extraction process. Topics such as skeleton generation, automatic skin weight assignment, animation control systems, and texture parameterization are beyond the scope of this work. These aspects are considered only as downstream applications that may benefit from improved mesh topology.
+
+\section{Related Work}
+
+\subsection{Marching Cubes}
+
+Marching Cubes is one of the earliest and most influential algorithms for isosurface extraction. Proposed by Lorensen and Cline in 1987~\cite{lorensen1987marching}, the method reconstructs a polygonal approximation of an isosurface from volumetric scalar fields. The algorithm processes each voxel independently and determines the local surface configuration according to the signs of scalar values at the eight cube vertices. A predefined lookup table is then used to generate the corresponding triangular mesh.
+
+The main advantage of Marching Cubes lies in its simplicity, efficiency, and ability to generate high-resolution surfaces from volumetric data. Consequently, the algorithm has become a standard technique in medical visualization, scientific computing, and geometric modeling.
+
+Despite its success, Marching Cubes suffers from several limitations. The generated meshes are constrained by the underlying voxel grid and may exhibit aliasing artifacts when the grid resolution is insufficient. In addition, certain cube configurations lead to topological ambiguities that can produce inconsistent connectivity between neighboring cells. The algorithm also provides limited control over the resulting mesh topology, making it less suitable for applications that require structured polygonal layouts.
+
+\subsection{Dual Marching Cubes and Dual Contouring}
+
+To address some limitations of Marching Cubes, dual-based surface reconstruction methods were proposed. Unlike primal methods, which place vertices on cell edges, dual approaches generate vertices inside cells and construct surfaces using the dual relationship between cells and vertices.
+
+Dual Marching Cubes extends the original algorithm by generating dual mesh structures that better preserve topological consistency. A closely related technique, Dual Contouring~\cite{nieBleszinski2002dualcontouring}, introduces Hermite data consisting of surface intersection points and normals. This additional information allows the reconstructed surface to preserve sharp features such as corners and edges that are often smoothed out by Marching Cubes.
+
+The primary advantage of dual methods is their ability to represent geometric details using fewer polygons while maintaining feature preservation. Furthermore, dual formulations often produce meshes with better topological properties than traditional Marching Cubes.
+
+However, these methods still rely heavily on grid discretization and handcrafted geometric rules. Although they improve surface quality, they are not designed for integration with modern learning-based optimization frameworks. Consequently, their applicability in neural geometry reconstruction remains limited.
+
+\subsection{Deep Marching Cubes}
+
+The development of deep learning-based geometry reconstruction introduced new requirements for mesh extraction algorithms. Traditional isosurface extraction methods are generally non-differentiable, preventing gradients from propagating through the mesh generation process. This limitation hinders end-to-end optimization in neural reconstruction pipelines.
+
+Deep Marching Cubes~\cite{liao2018deepmc} was proposed to bridge this gap by combining neural shape representations with mesh extraction. The method predicts occupancy information and surface configurations using neural networks while preserving the general framework of Marching Cubes. By learning geometric priors directly from training data, Deep Marching Cubes can generate more accurate surfaces than purely geometric approaches.
+
+The method demonstrated that mesh generation could be incorporated into learning-based systems. However, the discrete lookup-table structure inherited from Marching Cubes still introduces optimization challenges. In addition, mesh quality remains strongly influenced by voxel resolution and does not explicitly address topology requirements for downstream modeling applications.
+
+\subsection{Differentiable Marching Tetrahedra (DMTet)}
+
+Differentiable Marching Tetrahedra (DMTet)~\cite{shen2021dmtet} represents a significant advancement in differentiable surface extraction. Instead of operating on cubic cells, DMTet subdivides the volumetric domain into tetrahedral elements. Surface reconstruction is performed by interpolating vertex positions inside tetrahedra, enabling gradients to propagate through the extraction process.
+
+A key advantage of DMTet is its differentiability with respect to both geometry and topology-related parameters. This property allows the method to be integrated directly into optimization pipelines for neural surface reconstruction and text-to-3D generation. Furthermore, tetrahedral discretization eliminates several ambiguity cases that commonly occur in Marching Cubes.
+
+Despite these advantages, DMTet inherits limitations associated with tetrahedral mesh structures. High-quality reconstruction often requires dense tetrahedral grids, leading to increased memory consumption and computational cost. The resulting meshes are optimized primarily for geometric accuracy rather than animation-friendly topology. Consequently, additional mesh processing is often required before the extracted surfaces can be used in content creation workflows.
+
+\subsection{FlexiCubes}
+
+FlexiCubes~\cite{shen2023flexicubes} is a recent differentiable isosurface extraction framework designed to improve both reconstruction quality and optimization flexibility. The method extends conventional cube-based extraction by introducing learnable vertex positions and adaptive cell configurations. Unlike Marching Cubes, which relies on fixed interpolation rules, FlexiCubes allows local surface geometry to be optimized through gradient-based learning.
+
+One of the main strengths of FlexiCubes is its ability to generate high-fidelity meshes while maintaining differentiability throughout the extraction process. The framework has demonstrated strong performance in neural reconstruction tasks and has been adopted in several modern 3D generation systems. Compared to DMTet, FlexiCubes often achieves similar reconstruction quality while using more memory-efficient grid structures.
+
+Nevertheless, FlexiCubes primarily focuses on geometric reconstruction accuracy. The optimization objectives are designed to improve surface approximation rather than mesh topology. As a result, the generated meshes may contain irregular connectivity patterns, non-uniform polygon distributions, and edge flows that are not suitable for modeling, subdivision, or rigging. These limitations motivate the development of topology-aware extensions capable of generating meshes that better satisfy the requirements of downstream content creation pipelines.
+
+\subsection{Latent 3D Shape Generation}
+
+Recent advances in generative artificial intelligence have enabled the creation of three-dimensional assets directly from text descriptions, images, or sparse observations. Many of these approaches operate in a latent representation space using neural implicit representations such as Occupancy Networks~\cite{mescheder2019occupancy}, DeepSDF~\cite{park2019deepsdf}, and Neural Radiance Fields (NeRF)~\cite{mildenhall2020nerf}.
+
+A representative example is TRELLIS~\cite{trellis2024}, which employs structured latent representations for large-scale 3D generation. Instead of directly predicting polygonal meshes, TRELLIS learns latent features that can be decoded into various geometric representations, including implicit fields and volumetric structures. This design allows the model to capture both local geometric details and global shape semantics while maintaining efficient inference.
+
+Other recent methods similarly rely on latent diffusion models, neural implicit fields, or sparse volumetric representations to generate 3D content. These approaches have significantly improved the quality and diversity of generated assets. However, most generated geometries ultimately require an explicit mesh representation before they can be edited, animated, or integrated into production workflows.
+
+Consequently, the quality of the final mesh remains strongly dependent on the underlying isosurface extraction algorithm. Even when the latent representation accurately captures object geometry, deficiencies in mesh topology may limit the usability of the generated asset. This observation highlights the importance of topology-aware extraction methods that can bridge the gap between neural generation systems and practical 3D content creation pipelines.
+
+\subsection{Discussion and Research Gap}
+
+The progression from Marching Cubes to modern differentiable extraction methods has significantly improved geometric reconstruction quality and compatibility with learning-based optimization frameworks. Marching Cubes established the foundation of voxel-based surface extraction, while dual methods improved feature preservation and topological consistency. Deep Marching Cubes introduced learning-based reconstruction, and DMTet enabled differentiable geometry optimization through tetrahedral discretization. More recently, FlexiCubes provided a flexible and efficient framework for high-quality differentiable surface extraction.
+
+Despite these advances, existing methods primarily evaluate success in terms of geometric reconstruction accuracy. Comparatively little attention has been given to the topology of the generated meshes from the perspective of modeling and animation. As a result, many extracted meshes still require extensive retopology before they can be used in practical production environments.
+
+This thesis addresses this research gap by investigating topology-aware modifications to the FlexiCubes framework. The goal is to preserve the geometric advantages of differentiable extraction while generating mesh structures that are more suitable for modeling, rigging, and animation workflows.
+
+\section{Dataset}
+
+\subsection{ShapeNetCore as a Source of Topology Priors}
+
+A key objective of this thesis is to improve the topology of meshes generated from implicit representations. To achieve this goal, a source of high-quality topology information is required. ShapeNetCore~\cite{chang2015shapenet,shapenetcore} is selected for this purpose because it contains a large collection of manually created CAD models that have been designed according to established modeling practices.
+
+ShapeNetCore provides thousands of polygonal meshes across diverse object categories, including furniture, vehicles, household objects, and industrial components. Unlike automatically generated meshes, these models typically exhibit structured edge flow, regular polygon distributions, and topology layouts that facilitate editing and further geometric processing. As a result, the dataset serves as a valuable source of topology information that reflects common practices in professional modeling workflows.
+
+In this thesis, ShapeNetCore~\cite{chang2015shapenet} is not used solely as an evaluation benchmark. Instead, the dataset is analyzed to identify topological characteristics that can be incorporated into the mesh extraction process. Examples of such characteristics include vertex valence distributions, local connectivity patterns, edge-flow structures, and face regularity statistics. These observations are used to construct topology priors that guide the generation of more structured meshes.
+
+\subsection{TRELLIS-Generated Geometry}
+
+TRELLIS~\cite{trellis2024} is a modern generative framework capable of producing three-dimensional assets from latent representations. The generated geometry is typically represented as volumetric or implicit data structures that require a subsequent mesh extraction stage before they can be used in conventional graphics applications.
+
+Although TRELLIS is capable of generating geometrically detailed shapes, the resulting meshes obtained through standard extraction methods are primarily optimized for surface reconstruction accuracy. Consequently, the generated meshes may contain irregular connectivity, non-uniform polygon distributions, and topological structures that are difficult to edit or animate.
+
+Since one of the intended applications of generated assets is integration into content creation pipelines, improving mesh topology remains an important challenge. TRELLIS-generated geometry therefore serves as the target domain in which the proposed topology-aware extraction framework is evaluated.
+
+\section{Background Knowledge}
+
+This section presents the fundamental concepts required to understand the proposed topology-aware mesh extraction framework. First, the Transformer architecture underlying modern latent 3D generation models is introduced. Next, implicit surface representations and isosurface extraction techniques are discussed as the primary geometric representation and reconstruction mechanisms used in the pipeline. Finally, the concept of mesh topology and topology priors is presented to motivate the incorporation of structural information during mesh extraction.
+
+\subsection{Transformer Architecture}
+
+The Transformer architecture was introduced by Vaswani et al.~\cite{vaswani2017attention} as a neural network model based entirely on attention mechanisms. Unlike recurrent neural networks and convolutional neural networks, Transformers process all input elements simultaneously and model long-range dependencies through self-attention. This design enables efficient parallel computation and has become the foundation of many modern machine learning systems.
+
+The core component of a Transformer is the self-attention mechanism. Given an input sequence, each element is projected into three vectors referred to as queries, keys, and values. The similarity between queries and keys determines the attention weights, which are subsequently used to aggregate information from the values. Formally, scaled dot-product attention is defined as
+
+\[
+\mathrm{Attention}(Q,K,V)
+=
+\mathrm{softmax}
+\left(
+\frac{QK^{T}}{\sqrt{d_k}}
+\right)V,
+\]
+
+where $Q$, $K$, and $V$ denote the query, key, and value matrices, respectively, and $d_k$ represents the dimensionality of the key vectors.
+
+To improve representational capacity, multiple attention operations are performed in parallel using Multi-Head Attention. Each attention head learns different relationships within the input data, allowing the model to capture diverse structural and semantic information. The outputs of all heads are concatenated and transformed to produce the final representation.
+
+Recent generative models extend the Transformer architecture beyond natural language processing to domains such as images, videos, and three-dimensional content. In particular, Transformer-based architectures are capable of learning compact latent representations that encode complex spatial relationships. This capability has made them an important component in modern 3D generation systems.
+
+TRELLIS employs structured latent representations generated through Transformer-based mechanisms. Rather than directly producing polygonal meshes, the model learns latent features that encode both semantic and geometric information. These latent representations are subsequently decoded into volumetric or implicit geometric forms, which are then converted into polygonal meshes through isosurface extraction algorithms.
+
+\subsection{Implicit Surface Representations and Isosurface Extraction}
+
+Traditional three-dimensional models are commonly represented as polygonal meshes consisting of vertices, edges, and faces. While this representation is convenient for rendering and editing, it is often difficult to optimize directly within learning-based systems. Consequently, many modern reconstruction and generation methods employ implicit representations instead.
+
+An implicit surface is defined as the set of points satisfying
+
+\[
+f(\mathbf{x}) = c,
+\]
+
+where $f(\mathbf{x})$ is a scalar-valued function and $c$ is a predefined isovalue. The resulting surface corresponds to the level set of the function. In many applications, particularly Signed Distance Fields (SDFs), the surface is represented by the zero-level set where $c=0$.
+
+Implicit representations offer several advantages. They provide continuous geometric descriptions, naturally support topology changes, and can represent complex structures without explicitly storing connectivity information. These properties have led to widespread adoption in neural reconstruction and generative modeling systems.
+
+However, implicit surfaces cannot be directly used in conventional modeling and animation software. An isosurface extraction stage is therefore required to convert the implicit representation into an explicit polygonal mesh. This process evaluates the scalar field on a discrete spatial grid and reconstructs the surface corresponding to the chosen isovalue.
+
+A variety of extraction methods have been proposed, including Marching Cubes, Dual Contouring, DMTet, and FlexiCubes. Early approaches focused primarily on geometric reconstruction, whereas more recent methods emphasize differentiability and compatibility with optimization-based learning frameworks. Among these methods, FlexiCubes introduces learnable geometric configurations that improve reconstruction quality while maintaining efficient gradient propagation.
+
+Despite significant progress in reconstruction fidelity, most extraction methods prioritize geometric accuracy over mesh structure. Consequently, the generated meshes may contain irregular connectivity patterns that reduce their suitability for downstream content creation tasks. This limitation motivates the development of topology-aware extraction techniques.
+
+\subsection{Topology Priors for Modeling and Rigging}
+
+Topology describes the connectivity relationships among vertices, edges, and faces within a polygonal mesh. Although topology does not directly determine geometric shape, it strongly influences the behavior of a mesh during editing, subdivision, simulation, and animation.
+
+In professional modeling workflows, artists typically construct meshes using structured edge flows and regular polygon distributions. These topology characteristics facilitate surface editing and improve deformation quality during animation. Edge loops are often aligned with geometric features and articulation regions to preserve volume and reduce visual artifacts during motion.
+
+Meshes generated automatically from implicit representations frequently lack such organization. Because conventional extraction algorithms focus primarily on surface reconstruction accuracy, the resulting connectivity structure is determined largely by local geometric configurations and grid discretization. Consequently, generated meshes often require an additional retopology stage before they can be used in production environments.
+
+One approach to addressing this problem is the use of topology priors. A topology prior represents statistical knowledge about desirable connectivity structures derived from high-quality reference meshes. Such priors may include information regarding vertex valence distributions, edge-flow consistency, local neighborhood structures, and face regularity patterns.
+
+In this thesis, topology priors are extracted from ShapeNetCore, a large collection of professionally created CAD models. The extracted topological characteristics are incorporated into the mesh extraction process to guide the generation of more structured meshes. Rather than treating topology as a byproduct of geometry reconstruction, the proposed framework considers topology as an additional objective during optimization.
+
+By combining topology priors with differentiable isosurface extraction, the proposed approach seeks to generate meshes that preserve geometric fidelity while exhibiting connectivity structures more suitable for modeling, rigging, and animation workflows.
+
+\section*{Chapter Summary}
+
+This chapter has presented the scope of the research, reviewed existing work on isosurface extraction, and introduced the datasets and background knowledge relevant to the proposed approach. The discussion of related work highlighted the progression from classical methods such as Marching Cubes to recent differentiable frameworks including DMTet and FlexiCubes. These methods have significantly improved the quality and flexibility of mesh reconstruction from implicit representations; however, they remain primarily focused on geometric accuracy rather than mesh structure.
+
+The dataset section introduced ShapeNetCore as a source of high-quality reference geometry and topology, and TRELLIS-generated assets as the target domain for modern 3D generation pipelines. This distinction establishes the motivation for transferring topological knowledge from artist-designed meshes to automatically generated geometry.
+
+Finally, the background knowledge section discussed Transformer-based architectures, implicit surface representations, and mesh topology. These concepts provide the theoretical foundation for understanding how latent 3D generation models and differentiable isosurface extraction methods can be combined within a topology-aware framework.
+
+Overall, the chapter establishes that there exists a gap between state-of-the-art geometry reconstruction methods and the requirements of modeling and animation workflows. This gap motivates the proposed research, which aims to incorporate topology priors derived from ShapeNetCore into a modified FlexiCubes framework for improving the structural quality of meshes generated from TRELLIS-based implicit representations. The next chapter presents the detailed design and implementation of this topology-aware extraction approach.
+\end{document}

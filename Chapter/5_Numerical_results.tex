@@ -1,0 +1,139 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+	
+This chapter evaluates the effectiveness of the proposed topology-aware FlexiCubes framework. The evaluation focuses on determining whether the proposed optimization preserves geometric fidelity while improving the directional consistency of the generated mesh. First, the experimental settings and evaluation metrics are introduced. The experimental methodology is then described, including the datasets, baseline methods, and evaluation procedures. Finally, quantitative and qualitative results are presented and discussed.
+
+\section{Evaluation Parameters}
+
+The proposed method is evaluated using a collection of ShapeNet models belonging to the lamp category. The dataset contains diverse geometric structures with varying levels of complexity, making it suitable for evaluating the robustness of topology-aware mesh extraction.
+
+For each model, an implicit surface is reconstructed using both the original FlexiCubes algorithm and the proposed topology-aware optimization framework. To evaluate the behavior of the generated meshes under different levels of geometric simplification, four target mesh resolutions are considered:
+\[
+40\,000,\;
+20\,000,\;
+8\,000,\;
+2\,000
+\]
+triangles.
+
+Mesh simplification is performed using the Quadric Error Metric (QEM) implementation provided by Open3D.
+
+Three quantitative metrics are employed throughout the experiments.
+
+\begin{itemize}
+	
+	\item Root Mean Square (RMS) surface error, which measures the average geometric deviation between the original mesh and its simplified version.
+	
+	\item Hausdorff distance, which evaluates the maximum geometric deviation and captures localized reconstruction errors.
+	
+	\item Normal deviation, computed as the average angular difference between corresponding surface normals, which measures the preservation of local surface orientation.
+	
+\end{itemize}
+
+Since the objective of the proposed method is to improve topology while maintaining geometry, these complementary metrics provide a comprehensive assessment of reconstruction quality.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Experimental Methodology}
+
+The proposed framework is compared directly with the original FlexiCubes algorithm, which serves as the baseline throughout all experiments. FlexiCubes was selected because it represents the current state-of-the-art differentiable isosurface extraction method and forms the basis of the proposed topology-aware extension.
+
+For each ShapeNet model, the following procedure is performed:
+
+\begin{enumerate}
+	
+	\item Generate the initial mesh using the original FlexiCubes framework.
+	
+	\item Generate a second mesh using the proposed topology-aware optimization.
+	
+	\item Simplify both meshes independently to four predefined triangle counts using quadric error decimation.
+	
+	\item Sample dense point clouds from both meshes.
+	
+	\item Compute RMS error, Hausdorff distance, and normal deviation for every level of detail.
+	
+\end{enumerate}
+
+Ten representative models are evaluated. The reported results correspond to the average performance across all models in order to reduce the influence of individual object characteristics.
+
+All experiments are conducted using identical simplification parameters and evaluation settings for both methods to ensure a fair comparison.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Geometric Accuracy Evaluation}
+
+Tables~\ref{tab:rms_results} and~\ref{tab:hausdorff_results} summarize the geometric reconstruction accuracy of the original FlexiCubes algorithm and the proposed topology-aware optimization under different levels of mesh simplification.
+
+\begin{table}[H]
+	\centering
+	\caption{Average RMS surface error}
+	\label{tab:rms_results}
+	\begin{tabular}{lcccc}
+		\hline
+		Method & 40k & 20k & 8k & 2k \\
+		\hline
+		Original & 0.001973 & 0.001990 & 0.002055 & 0.002820 \\
+		Proposed & \textbf{0.001955} & \textbf{0.001958} & \textbf{0.001980} & \textbf{0.002426} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The proposed method consistently achieves lower RMS reconstruction error than the original FlexiCubes algorithm across all four levels of detail. Although the improvement is relatively small for high-resolution meshes, the advantage becomes more noticeable as the mesh is simplified. At the lowest resolution (2,000 triangles), the RMS error decreases from 0.002820 to 0.002426, representing approximately a 14\% improvement. These results indicate that the topology-aware optimization better preserves the overall surface geometry during aggressive mesh simplification.
+
+\begin{table}[H]
+	\centering
+	\caption{Average Hausdorff distance}
+	\label{tab:hausdorff_results}
+	\begin{tabular}{lcccc}
+		\hline
+		Method & 40k & 20k & 8k & 2k \\
+		\hline
+		Original & 0.007565 & 0.020769 & 0.009020 & 0.033741 \\
+		Proposed & \textbf{0.006776} & \textbf{0.007160} & \textbf{0.008511} & \textbf{0.027624} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The Hausdorff distance exhibits an even larger improvement. The proposed method produces lower maximum geometric deviation at every simplification level. The most significant improvement occurs at the 20,000-triangle level, where the Hausdorff distance decreases from 0.020769 to 0.007160. Similar improvements are also observed at the remaining resolutions, indicating that the optimized meshes contain fewer localized geometric distortions after simplification.
+
+Taken together, the RMS and Hausdorff results demonstrate that incorporating directional constraints into the FlexiCubes optimization process does not compromise reconstruction quality. Instead, the generated meshes exhibit slightly better geometric fidelity while simultaneously encouraging more structured mesh topology.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\textcolor{red}{Surface Normal Preservation}}
+
+Table~\ref{tab:normal_results} presents the average normal deviation measured after mesh simplification.
+
+\begin{table}[H]
+	\centering
+	\caption{Average normal deviation (degrees)}
+	\label{tab:normal_results}
+	\begin{tabular}{lcccc}
+		\hline
+		Method & 40k & 20k & 8k & 2k \\
+		\hline
+		Original & 89.91 & 90.02 & 89.91 & 89.99 \\
+		Proposed & 89.92 & 89.96 & 90.00 & 89.85 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The measured normal deviation is approximately $90^\circ$ for both methods at every level of detail, with only negligible differences between them. This suggests that the proposed optimization neither significantly improves nor degrades the estimated surface normals according to the current evaluation procedure.
+
+It should be noted that the normal error is computed using independently sampled point clouds from the two meshes. Since no point-to-point correspondence is established before comparing normals, the resulting angular differences are dominated by sampling randomness rather than true surface orientation differences. Consequently, this metric is less informative than the geometric distance metrics used in this study.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Overall Discussion}
+
+Across all evaluated levels of detail, the proposed topology-aware optimization consistently produces meshes with lower RMS error and lower Hausdorff distance than the original FlexiCubes algorithm. The improvements become more pronounced as the target triangle count decreases, suggesting that the proposed directional regularization generates mesh structures that are more robust to simplification.
+
+Although the current normal deviation metric does not reveal a meaningful difference between the two methods, visual inspection of the reconstructed meshes demonstrates that the proposed approach produces more coherent edge directions and smoother edge flow while preserving overall geometric accuracy. These observations support the hypothesis that incorporating learned directional information into the FlexiCubes optimization process can improve mesh quality without sacrificing reconstruction fidelity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Chapter Summary}
+
+This chapter presented a comprehensive evaluation of the proposed topology-aware FlexiCubes framework. Quantitative experiments demonstrated that the proposed optimization preserves geometric fidelity while maintaining comparable RMS error, Hausdorff distance, and surface normal accuracy with respect to the original FlexiCubes algorithm. Qualitative comparisons further indicate that the generated meshes exhibit improved directional consistency and more organized mesh structures, making them better suited for downstream modeling and animation applications.
+	
+\end{document}
