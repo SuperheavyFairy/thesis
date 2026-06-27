@@ -24,15 +24,27 @@ The problem of extracting polygonal surfaces from volumetric or implicit represe
 
 With the emergence of neural implicit representations, isosurface extraction has gained renewed attention. Modern techniques such as Signed Distance Fields (SDFs), Occupancy Networks, and Neural Radiance Fields represent geometry implicitly rather than as explicit polygonal meshes. These representations enable compact storage and high-fidelity reconstruction of complex shapes. However, practical applications in computer graphics still require explicit mesh representations for rendering, editing, simulation, and animation. Consequently, efficient and accurate extraction of polygonal surfaces remains an essential component of modern geometry processing pipelines.
 
-Recent research has introduced differentiable isosurface extraction methods that allow gradients to propagate through the mesh generation process. Such methods facilitate geometry optimization and integration with deep learning frameworks. FlexiCubes is a representative approach in this category. By introducing flexible vertex placement and differentiable optimization mechanisms, FlexiCubes improves reconstruction quality while preserving compatibility with gradient-based learning systems. Experimental results demonstrate that the method produces meshes with higher geometric fidelity compared to conventional extraction techniques.
+Recent advances in generative artificial intelligence have further accelerated the development of automatic 3D content creation systems. Models such as TRELLIS generate sparse volumetric latent representations from text or image inputs, which are subsequently decoded into polygonal meshes using differentiable isosurface extraction algorithms such as FlexiCubes. This pipeline enables efficient generation of high-quality 3D assets while maintaining compatibility with gradient-based optimization.
 
-Despite these advantages, existing isosurface extraction methods, including FlexiCubes, primarily optimize geometric reconstruction accuracy. The generated meshes are evaluated based on criteria such as surface approximation error, normal consistency, and reconstruction quality. In contrast, considerably less attention is given to the topological structure of the resulting mesh from the perspective of digital content creation.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Figure/Figure1-Pipeline.png}
+	\caption{Overview of the proposed topology-aware mesh generation pipeline. }
+	\label{fig:overview_pipeline}
+\end{figure}
 
-In practical 3D modeling and animation workflows, mesh topology is often as important as geometric accuracy. A well-structured mesh should contain edge flows that follow the shape's semantic features and support deformation during animation. Character models, for example, require organized edge loops around joints and facial regions to achieve natural deformations during rigging and skinning. Similarly, editable assets benefit from mesh structures that simplify sculpting, subdivision, and texture mapping. Meshes generated solely for geometric accuracy frequently contain irregular vertex distributions and topological patterns that are difficult to use in these downstream tasks.
+As illustrated in Figure~\ref{fig:overview_pipeline}, existing generation pipelines are primarily designed to maximize geometric reconstruction quality. Although the generated meshes accurately reproduce the target surface, the extracted topology is largely determined by the local geometry and the underlying extraction algorithm rather than by desirable modeling characteristics.
 
-As a consequence, assets generated from implicit representations often require a separate retopology stage before they can be integrated into production pipelines. Retopology aims to reconstruct a more suitable mesh structure while preserving the original geometry. Although effective, this process introduces additional computational cost and often requires substantial manual effort from artists. The need for post-processing reduces the overall efficiency of workflows that rely on automatic geometry generation.
+FlexiCubes is a representative differentiable isosurface extraction method. By introducing flexible vertex placement and learnable optimization mechanisms, it significantly improves reconstruction quality while preserving compatibility with gradient-based learning systems. Experimental results demonstrate that the method produces meshes with higher geometric fidelity than conventional extraction techniques and has therefore been adopted in several modern 3D generation frameworks.
 
-The limitations discussed above reveal a gap between existing isosurface extraction methods and the requirements of practical 3D content creation. While FlexiCubes successfully addresses challenges related to differentiable surface reconstruction and geometric fidelity, it does not explicitly generate topology-aware meshes suitable for modeling and rigging applications. This observation motivates the research presented in this thesis, which investigates modifications to the FlexiCubes framework with the goal of incorporating topological considerations into the mesh extraction process while maintaining reconstruction quality.
+Despite these advantages, existing isosurface extraction methods, including FlexiCubes, primarily optimize geometric reconstruction accuracy. The generated meshes are commonly evaluated using metrics such as surface approximation error, normal consistency, and reconstruction quality. In contrast, considerably less attention is given to the topological structure of the resulting mesh from the perspective of digital content creation.
+
+In practical 3D modeling and animation workflows, mesh topology is often as important as geometric accuracy. A well-structured mesh should contain edge flows that follow the semantic features of the object and support deformation during animation. Character models, for example, require organized edge loops around joints and facial regions to achieve natural deformations during rigging and skinning. Similarly, editable assets benefit from mesh structures that simplify sculpting, subdivision, texture mapping, and geometric editing. Meshes generated solely for geometric accuracy frequently contain irregular vertex distributions and edge connectivity that are difficult to use in these downstream tasks.
+
+As a consequence, assets generated from implicit representations often require a separate retopology stage before they can be integrated into production pipelines. Retopology reconstructs a more suitable mesh structure while preserving the original geometry. Although effective, this process introduces additional computational cost and often requires substantial manual effort from artists. The need for post-processing reduces the overall efficiency of workflows based on automatic geometry generation.
+
+The limitations discussed above reveal a gap between existing isosurface extraction methods and the requirements of practical 3D content creation. While FlexiCubes successfully addresses challenges related to differentiable surface reconstruction and geometric fidelity, it does not explicitly optimize mesh topology. This observation motivates the research presented in this thesis, which investigates topology-aware modifications to the FlexiCubes framework by incorporating directional priors learned from high-quality reference meshes. The objective is to preserve the geometric advantages of differentiable isosurface extraction while generating meshes with more consistent edge flow and improved suitability for modeling, subdivision, rigging, and animation.
+
 
 \section{Research Objectives and Conceptual Framework}
 
@@ -59,40 +71,17 @@ This thesis provides the following main contributions:
 	\item An experimental evaluation on volumetric datasets that demonstrates the effectiveness of the proposed approach through comparisons with existing methods.
 \end{enumerate}
 
-\section{\textcolor{red}{Organization of Thesis}}
+\section{Organization of the Thesis}
 
 The remainder of this thesis is organized as follows.
 
-Chapter 2 presents the theoretical background related to scalar fields, volumetric data representation, geometric modeling, and isosurface extraction. The chapter also introduces the mathematical concepts and visualization principles that form the foundation of the research.
+Chapter~2 presents the theoretical background and related work that form the foundation of this research. The chapter first defines the scope of the study and reviews representative isosurface extraction algorithms, including Marching Cubes, Dual Contouring, Deep Marching Cubes, DMTet, and FlexiCubes, highlighting their advantages and limitations. It then introduces the datasets used in this thesis, namely ShapeNetCore and TRELLIS-generated geometry, followed by the background knowledge on Transformer architectures, implicit surface representations, isosurface extraction, and mesh topology. The chapter concludes by identifying the research gap that motivates the proposed topology-aware isosurface extraction framework.
 
-Chapter 3 reviews existing isosurface extraction algorithms in detail. The chapter discusses classical methods such as Marching Cubes and Marching Tetrahedra, as well as more advanced approaches including Dual Contouring and adaptive extraction techniques. Their advantages, limitations, and application scenarios are analyzed systematically.
+Chapter~3 describes the proposed methodology for topology-aware isosurface extraction. The chapter first presents the extraction of directional information from high-quality meshes in the ShapeNetCore dataset and explains how local edge-flow information is transformed into a continuous directional field. Next, it introduces a Transformer-based neural network trained to predict surface normals and edge directions from point clouds. Finally, the chapter presents the integration of the pretrained model into the FlexiCubes optimization framework, where the signed distance field, vertex deformation, and adaptive cube parameters are jointly optimized to generate meshes whose edge flow better matches the learned topology priors while preserving geometric fidelity.
 
-Chapter 4 presents the proposed methodology. The design rationale, algorithmic workflow, implementation details, and optimization strategies are described. The chapter explains how the proposed framework addresses the challenges identified in the previous chapters.
+Chapter~4 presents the experimental setup and evaluation methodology used to assess the proposed approach. The chapter describes the evaluation metrics, datasets, implementation details, and experimental procedures. Quantitative comparisons between the original FlexiCubes method and the proposed topology-aware framework are conducted using geometric reconstruction metrics, including Root Mean Square (RMS) error, Hausdorff distance, and surface normal deviation. The experimental results are then analyzed to evaluate the effectiveness of the proposed optimization strategy and discuss its advantages and limitations.
 
-Chapter 5 reports the experimental setup, evaluation metrics, datasets, and results. Quantitative and qualitative analyses are conducted to compare the proposed method with representative baseline approaches. The effectiveness and limitations of the proposed framework are discussed based on experimental observations.
-
-Finally, Chapter 6 summarizes the main findings of the thesis, highlights the achieved contributions, discusses remaining limitations, and suggests potential directions for future research.
-
-Phần còn lại của báo cáo đồ án tốt nghiệp này được tổ chức như sau. 
-
-Chương 2 trình bày về v.v. 
-
-Trong Chương 3, em/tôi giới thiệu về v.v.
-
-Chú ý: Sinh viên cần viết mô tả thành đoạn văn đầy đủ về nội dung chương. Tuyệt đối không viết ý hay gạch đầu dòng. Chương 1 không cần mô tả trong phần này. 
-
-Ví dụ tham khảo mô tả chương trong phần bố cục đồ án tốt nghiệp: Chương *** trình bày đóng góp chính của đồ án, đó là một nền tảng ABC cho phép khai phá và tích hợp nhiều nguồn dữ liệu, trong đó mỗi nguồn dữ liệu lại có định dạng đặc thù riêng. Nền tảng ABC được phát triển dựa trên khái niệm DEF, là các module ngữ nghĩa trợ giúp người dùng tìm kiếm, tích hợp và hiển thị trực quan dữ liệu theo mô hình cộng tác và mô hình phân tán.  
-
-Chú ý: Trong phần nội dung chính, mỗi chương của đồ án nên có phần Tổng quan và Kết chương. Hai phần này đều có định dạng văn bản “Normal”, sinh viên không cần tạo định dạng riêng, ví dụ như không in đậm/in nghiêng, không đóng khung, v.v... 
-
-Trong phần Tổng quan của chương N, sinh viên nên có sự liên kết với chương N-1 rồi trình bày sơ qua lý do có mặt của chương N và sự cần thiết của chương này trong đồ án. Sau đó giới thiệu những vấn đề sẽ trình bày trong chương này là gì, trong các đề mục lớn nào.
-
-Ví dụ về phần Tổng quan: Chương 3 đã thảo luận về nguồn gốc ra đời, cơ sở lý thuyết và các nhiệm vụ chính của bài toán tích hợp dữ liệu. Chương 4 này sẽ trình bày chi tiết các công cụ tích hợp dữ liệu theo hướng tiếp cận “mashup”. Với mục đích và phạm vi của đề tài, sáu nhóm công cụ tích hợp dữ liệu chính được trình bày bao gồm: (i) nhóm công cụ ABC trong phần 4.1, (ii) nhóm công cụ DEF trong phần 4.2, nhóm công cụ GHK trong phần 4.3, v.v...
-
-Trong phần Kết chương, sinh viên đưa ra một số kết luận quan trọng của chương. Những vấn đề mở ra trong Tổng quan cần được tóm tắt lại nội dung và cách giải quyết/thực hiện như thế nào. Sinh viên lưu ý không viết Kết chương giống hệt Tổng quan. Sau khi đọc phần Kết chương, người đọc sẽ nắm được sơ bộ nội dung và giải pháp cho các vấn đề đã trình bày trong chương. Trong Kết chương, Sinh viên nên có thêm câu liên kết tới chương tiếp theo.
-
-Ví dụ về phần Kết chương: Chương này đã phân tích chi tiết sáu nhóm công cụ tích hợp dữ liệu. Nhóm công cụ ABC và DEF thích hợp với những bài toán tích hợp dữ liệu phạm vi nhỏ. Trong khi đó, nhóm công cụ GHK lại chứng tỏ thế mạnh của mình với những bài toán cần độ chính xác cao, v.v. Từ kết quả nghiên cứu và phân tích về sáu nhóm công cụ tích hợp dữ liệu này, tôi đã thực hiện phát triển phần mềm tự động bóc tách và tích hợp dữ liệu sử dụng nhóm công cụ GHK. Phần này được trình bày trong chương tiếp theo – Chương 5.
-
+Finally, Chapter~5 summarizes the main contributions of the thesis and discusses the overall findings of the research. The chapter highlights the achievements and remaining limitations of the proposed method and concludes by suggesting several directions for future work, including extending the approach to more complex object categories, improving topology guidance using more flexible grid representations, and integrating topology-aware optimization directly into generative 3D models.
 
 
 \end{document}

@@ -3,21 +3,29 @@
 
 \section{Overview}
 
-Phần này mô tả tổng quan giải pháp gồm những bước chính nào, hoạt động ra sao. Mục tiêu của phần này là cho người đọc một cái nhìn tổng thể về giải pháp. Để cho dễ hiểu thì nên có một biểu đồ mô tả luồng hoạt động của giải pháp đề xuất. 
+Chapter 2 presented the theoretical background of implicit surface representations, differentiable isosurface extraction, and topology-aware mesh generation. It also identified the limitations of existing methods, particularly the lack of topological constraints during mesh extraction. Building upon these observations, this chapter presents the methodology proposed to incorporate topology priors into the FlexiCubes framework.
+
+The proposed approach consists of three major stages. First, directional information that characterizes local mesh topology is extracted from high-quality reference meshes in the ShapeNetCore dataset. A local coordinate system is established for each sampled surface point by aligning the corresponding face normal with a canonical axis. The directions of neighboring edges are then transformed into this local frame, normalized to account for the rotational symmetry of quadrilateral meshes, and aggregated to produce a smooth directional field over the surface.
+
+The extracted directional field is subsequently used to train a Transformer-based neural network capable of predicting both surface normals and principal topology directions directly from point cloud data. The learned model captures the statistical relationship between geometric shape and desirable edge-flow patterns observed in artist-created meshes, allowing topology priors to be inferred for previously unseen objects.
+
+Finally, the pretrained network is integrated into the FlexiCubes optimization pipeline. During differentiable mesh extraction, the predicted directional information is incorporated as an additional optimization objective alongside the original geometric reconstruction loss. The signed distance field, vertex deformation parameters, and adaptive cube weights are iteratively refined so that the extracted mesh preserves geometric fidelity while producing edge flows that are more consistent with the learned topology priors.
+
+Through these three stages, the proposed framework combines data-driven topology learning with differentiable isosurface extraction to generate meshes that are better suited for downstream modeling, subdivision, rigging, and animation workflows. The details of each stage are presented in the following sections.
 
 \section{Surface Direction Field Extraction}
 
 A central component of the proposed topology-aware extraction framework is the construction of a smooth directional field over the input surface. Rather than relying directly on the connectivity of the input triangular mesh, the proposed method estimates a dominant tangent direction from the geometric configuration of each sampled face. The resulting direction field is later used as a structural prior for topology-aware mesh optimization.
 
 \subsection{Surface Sampling}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Figure/Figure3-1-DataCollected}
+	\caption{}
+	\label{fig:figure3-1-datacollected}
+\end{figure}
 
-Given an input triangular mesh
-
-\[
-\mathcal{M}=(V,E,F),
-\]
-
-where $V$, $E$, and $F$ denote the sets of vertices, edges, and faces, respectively, a large number of points are sampled uniformly over the mesh surface using area-weighted sampling. Each sampled point inherits the face from which it is generated, allowing access to the corresponding face normal and edge information.
+Given an input triangular mesh $\mathcal{M}=(V,E,F)$ where $V$, $E$, and $F$ denote the sets of vertices, edges, and faces, respectively, a large number of points are sampled uniformly over the mesh surface using area-weighted sampling. Each sampled point inherits the face from which it is generated, allowing access to the corresponding face normal and edge information.
 
 For every sampled point, the following information is collected:
 
@@ -54,13 +62,7 @@ After applying the transformation, all edge vectors lie approximately on the loc
 
 \subsection{Edge Direction Representation}
 
-Let
-
-\[
-\mathbf{e}_i,\quad i=1,2,3
-\]
-
-denote the three normalized edge vectors after rotation into the local coordinate system. Since each edge lies on the tangent plane, its orientation can be represented using a single angular value.
+Let $\mathbf{e}_i,\quad i=1,2,3$ denote the three normalized edge vectors after rotation into the local coordinate system. Since each edge lies on the tangent plane, its orientation can be represented using a single angular value.
 
 Given
 
@@ -86,6 +88,13 @@ Each triangular face therefore produces three candidate directions.
 Unlike quadrilateral meshes, triangular meshes do not explicitly encode a pair of principal directions. Consequently, selecting one of the three edge directions arbitrarily would introduce discontinuities into the resulting direction field. A strategy is therefore required to identify the dominant orientation shared among neighboring triangles.
 
 \subsection{Orthogonal Direction Normalization}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Figure/Figure3-4-Motivation}
+	\caption{}
+	\label{fig:figure3-4-motivation}
+\end{figure}
+
 
 The proposed method is motivated by the observation that meshes intended for animation and subdivision are predominantly quadrilateral. A quadrilateral mesh naturally possesses two orthogonal principal directions, and directions differing by multiples of $90^\circ$ should be regarded as equivalent.
 
@@ -199,7 +208,14 @@ This representation allows the network to learn both the local surface orientati
 
 A transformer-based network is adopted to model long-range geometric relationships within the point cloud. Unlike conventional multilayer perceptrons, transformers employ self-attention mechanisms that enable each point to aggregate information from every other point in the object. Such global context is particularly beneficial because the dominant topology direction often depends on the overall object structure rather than purely local geometry.
 
-Figure~\ref{fig:transformer_pipeline} illustrates the overall architecture.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{"Figure/Figure33-2 Artchitecture"}
+	\caption{}
+	\label{fig:figure33-2-artchitecture}
+\end{figure}
+
+Figure~\ref{fig:figure33-2-artchitecture} illustrates the overall architecture.
 
 The input point cloud
 

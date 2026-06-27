@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.19)  22 JUN 2026 15:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.19)  27 JUN 2026 06:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -613,49 +613,83 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthR=\skip96
 \@temptokenb=\toks40
 )
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
+
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count312
+)
+\MT@toks=\toks41
+\MT@tempbox=\box71
+\MT@count=\count313
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
+LaTeX Info: Redefining \leftprotrusion on input line 1085.
+\MT@prot@toks=\toks42
+LaTeX Info: Redefining \rightprotrusion on input line 1104.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen186
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count314
+
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip97
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+)
 (/usr/share/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
 (/usr/share/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen186
-\captionmargin=\dimen187
-\caption@leftmargin=\dimen188
-\caption@rightmargin=\dimen189
-\caption@width=\dimen190
-\caption@indent=\dimen191
-\caption@parindent=\dimen192
-\caption@hangindent=\dimen193
+\caption@tempdima=\dimen187
+\captionmargin=\dimen188
+\caption@leftmargin=\dimen189
+\caption@rightmargin=\dimen190
+\caption@width=\dimen191
+\caption@indent=\dimen192
+\caption@parindent=\dimen193
+\caption@hangindent=\dimen194
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count312
-\c@continuedfloat=\count313
+\c@caption@flags=\count315
+\c@continuedfloat=\count316
 Package caption Info: scrextend package is loaded.
-\caption@addmargin@hsize=\dimen194
-\caption@addmargin@linewidth=\dimen195
+\caption@addmargin@hsize=\dimen195
+\caption@addmargin@linewidth=\dimen196
 )
 (/usr/share/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count314
-\lst@gtempboxa=\box71
-\lst@token=\toks41
-\lst@length=\count315
-\lst@currlwidth=\dimen196
-\lst@column=\count316
-\lst@pos=\count317
-\lst@lostspace=\dimen197
-\lst@width=\dimen198
-\lst@newlines=\count318
-\lst@lineno=\count319
-\lst@maxwidth=\dimen199
+\lst@mode=\count317
+\lst@gtempboxa=\box72
+\lst@token=\toks43
+\lst@length=\count318
+\lst@currlwidth=\dimen197
+\lst@column=\count319
+\lst@pos=\count320
+\lst@lostspace=\dimen198
+\lst@width=\dimen199
+\lst@newlines=\count321
+\lst@lineno=\count322
+\lst@maxwidth=\dimen256
 
 (/usr/share/texmf-dist/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
 )
 (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-\c@lstnumber=\count320
-\lst@skipnumbers=\count321
-\lst@framebox=\box72
+\c@lstnumber=\count323
+\lst@skipnumbers=\count324
+\lst@framebox=\box73
 )
 (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2025/11/14 1.11b listings configuration
@@ -670,18 +704,18 @@ Package: listings 2025/11/14 1.11b (Carsten Heinz)
     so I'm assuming it got fixed.
 (/usr/share/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count322
-\float@exts=\toks42
-\float@box=\box73
-\@float@everytoks=\toks43
-\@floatcapt=\box74
+\c@float@type=\count325
+\float@exts=\toks44
+\float@box=\box74
+\@float@everytoks=\toks45
+\@floatcapt=\box75
 )
 (/usr/share/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count323
+\c@subfigure=\count326
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count324
+\c@subtable=\count327
 )
 (/usr/share/texmf-dist/tex/latex/glossaries/base/glossaries.sty
 Package: glossaries 2025/11/09 v4.9 (NLCT)
@@ -691,22 +725,17 @@ Package: xkeyval 2025/11/04 v2.10 package option processing (HA)
 
 (/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 (/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks44
-\XKV@tempa@toks=\toks45
-\XKV@tempb@toks=\toks46
+\XKV@toks=\toks46
+\XKV@tempa@toks=\toks47
+\XKV@tempb@toks=\toks48
 )
-\XKV@depth=\count325
+\XKV@depth=\count328
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 (/usr/share/texmf-dist/tex/latex/mfirstuc/mfirstuc.sty
 Package: mfirstuc 2025/04/03 v2.09 (NLCT)
-
-(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count326
-)
-\@glsmfirst=\toks47
-\@glsmrest=\toks48
+\@glsmfirst=\toks49
+\@glsmrest=\toks50
 )
 (/usr/share/texmf-dist/tex/latex/xfor/xfor.sty
 Package: xfor 2009/02/05 v1.05 (NLCT)
@@ -729,126 +758,126 @@ Package glossaries Warning: No language module detected for `nil'.
 
 (/usr/share/texmf-dist/tex/latex/datatool/datatool-base.sty
 Package: datatool-base 2025/12/04 v3.4.3 (NLCT)
-\l__datatool_tmpa_int=\count327
-\l__datatool_tmpb_int=\count328
-\l__datatool_tmpc_int=\count329
-\l__datatool_tmpd_int=\count330
-\l__datatool_count_int=\count331
-\l__datatool_tmp_datatype_int=\count332
-\l__datatool_tmpa_dim=\dimen256
-\l__datatool_tmpb_dim=\dimen257
+\l__datatool_tmpa_int=\count329
+\l__datatool_tmpb_int=\count330
+\l__datatool_tmpc_int=\count331
+\l__datatool_tmpd_int=\count332
+\l__datatool_count_int=\count333
+\l__datatool_tmp_datatype_int=\count334
+\l__datatool_tmpa_dim=\dimen257
+\l__datatool_tmpb_dim=\dimen258
 
 (/usr/share/texmf-dist/tex/latex/datatool/datatool-l3fp.def
 File: datatool-l3fp.def 2025/12/04 v3.4.3 (NLCT)
 )
-\@dtl@toks=\toks49
-\@dtl@tmpcount=\count333
-\dtl@tmplength=\skip97
-\l__datatool_measure_box=\box75
-\dtl@sortresult=\count334
+\@dtl@toks=\toks51
+\@dtl@tmpcount=\count335
+\dtl@tmplength=\skip98
+\l__datatool_measure_box=\box76
+\dtl@sortresult=\count336
 
 (/usr/share/texmf-dist/tex/latex/datatool/datatool-utf8.ldf
 File: datatool-utf8.ldf 2025/12/04 v3.4.3 (NLCT)
 )
-\@dtl@datatype=\count335
-\c_datatool_unknown_int=\count336
-\l__datatool_year_int=\count337
-\l__datatool_month_int=\count338
-\l__datatool_day_int=\count339
-\l__datatool_hour_int=\count340
-\l__datatool_minute_int=\count341
-\l__datatool_second_int=\count342
-\l__datatool_tzhour_int=\count343
-\l__datatool_tzminute_int=\count344
-\l__datatool_julian_int=\count345
-\l__datatool_local_julian_int=\count346
-\l__datatool_prefix_int=\count347
-\l__datatool_suffix_int=\count348
-\@dtl@foreach@level=\count349
+\@dtl@datatype=\count337
+\c_datatool_unknown_int=\count338
+\l__datatool_year_int=\count339
+\l__datatool_month_int=\count340
+\l__datatool_day_int=\count341
+\l__datatool_hour_int=\count342
+\l__datatool_minute_int=\count343
+\l__datatool_second_int=\count344
+\l__datatool_tzhour_int=\count345
+\l__datatool_tzminute_int=\count346
+\l__datatool_julian_int=\count347
+\l__datatool_local_julian_int=\count348
+\l__datatool_prefix_int=\count349
+\l__datatool_suffix_int=\count350
+\@dtl@foreach@level=\count351
 
 (/usr/share/texmf-dist/tex/latex/datatool/datatool-undetermined.ldf
 File: datatool-undetermined.ldf 2025/12/04 v3.4.3
 )
-\dtl@codeA=\count350
-\dtl@codeB=\count351
+\dtl@codeA=\count352
+\dtl@codeB=\count353
 )
-\gls@level=\count352
-\@gls@tmpb=\toks50
-\gls@tmplen=\skip98
-\l__glossaries_tmpa_dim=\dimen258
-\l__glossaries_tmpb_dim=\dimen259
-\glskeylisttok=\toks51
-\glslabeltok=\toks52
-\glsshorttok=\toks53
-\glslongtok=\toks54
+\gls@level=\count354
+\@gls@tmpb=\toks52
+\gls@tmplen=\skip99
+\l__glossaries_tmpa_dim=\dimen259
+\l__glossaries_tmpb_dim=\dimen260
+\glskeylisttok=\toks53
+\glslabeltok=\toks54
+\glsshorttok=\toks55
+\glslongtok=\toks56
 
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-hypernav.sty
 Package: glossary-hypernav 2025/11/09 v4.9 (NLCT)
 )
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-list.sty
 Package: glossary-list 2025/11/09 v4.9 (NLCT)
-\glslistdottedwidth=\skip99
+\glslistdottedwidth=\skip100
 )
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-long.sty
 Package: glossary-long 2025/11/09 v4.9 (NLCT)
 
 (/usr/share/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
-\LTleft=\skip100
-\LTright=\skip101
-\LTpre=\skip102
-\LTpost=\skip103
-\LTchunksize=\count353
-\LTcapwidth=\dimen260
-\LT@head=\box76
-\LT@firsthead=\box77
-\LT@foot=\box78
-\LT@lastfoot=\box79
-\LT@gbox=\box80
-\LT@cols=\count354
-\LT@rows=\count355
-\c@LT@tables=\count356
-\c@LT@chunks=\count357
-\LT@p@ftn=\toks55
+\LTleft=\skip101
+\LTright=\skip102
+\LTpre=\skip103
+\LTpost=\skip104
+\LTchunksize=\count355
+\LTcapwidth=\dimen261
+\LT@head=\box77
+\LT@firsthead=\box78
+\LT@foot=\box79
+\LT@lastfoot=\box80
+\LT@gbox=\box81
+\LT@cols=\count356
+\LT@rows=\count357
+\c@LT@tables=\count358
+\c@LT@chunks=\count359
+\LT@p@ftn=\toks57
 )
-\glsdescwidth=\skip104
-\glspagelistwidth=\skip105
+\glsdescwidth=\skip105
+\glspagelistwidth=\skip106
 )
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-super.sty
 Package: glossary-super 2025/11/09 v4.9 (NLCT)
 
 (/usr/share/texmf-dist/tex/latex/supertabular/supertabular.sty
 Package: supertabular 2025/06/26 v4.2d the supertabular environment
-\c@tracingst=\count358
-\ST@wd=\dimen261
-\ST@rightskip=\skip106
-\ST@leftskip=\skip107
-\ST@parfillskip=\skip108
-\ST@pageleft=\dimen262
-\ST@headht=\dimen263
-\ST@tailht=\dimen264
-\ST@pagesofar=\dimen265
-\ST@pboxht=\dimen266
-\ST@rowht=\dimen267
-\ST@prevht=\dimen268
-\ST@toadd=\dimen269
-\ST@dimen=\dimen270
-\ST@pbox=\box81
+\c@tracingst=\count360
+\ST@wd=\dimen262
+\ST@rightskip=\skip107
+\ST@leftskip=\skip108
+\ST@parfillskip=\skip109
+\ST@pageleft=\dimen263
+\ST@headht=\dimen264
+\ST@tailht=\dimen265
+\ST@pagesofar=\dimen266
+\ST@pboxht=\dimen267
+\ST@rowht=\dimen268
+\ST@prevht=\dimen269
+\ST@toadd=\dimen270
+\ST@dimen=\dimen271
+\ST@pbox=\box82
 ))
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
 Package: glossary-tree 2025/11/09 v4.9 (NLCT)
-\l__glossaries_tree_max_known_level_int=\count359
-\l__glossaries_tree_offset_dim=\dimen271
-\l__glossaries_tree_namewidth_dim=\dimen272
-\l__glossaries_tree_symbolwidth_dim=\dimen273
-\l__glossaries_tree_prenamesym_width_dim=\dimen274
-\l__glossaries_tree_presubnamesym_width_dim=\dimen275
-\l__glossaries_tree_namewidth_padding_dim=\dimen276
-\l__glossaries_tree_symbolwidth_padding_dim=\dimen277
-\l__glossaries_tree_namesymbolwidth_dim=\dimen278
-\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen279
-\l__glossaries_tree_level_int=\count360
-\glstreeindent=\skip109
+\l__glossaries_tree_max_known_level_int=\count361
+\l__glossaries_tree_offset_dim=\dimen272
+\l__glossaries_tree_namewidth_dim=\dimen273
+\l__glossaries_tree_symbolwidth_dim=\dimen274
+\l__glossaries_tree_prenamesym_width_dim=\dimen275
+\l__glossaries_tree_presubnamesym_width_dim=\dimen276
+\l__glossaries_tree_namewidth_padding_dim=\dimen277
+\l__glossaries_tree_symbolwidth_padding_dim=\dimen278
+\l__glossaries_tree_namesymbolwidth_dim=\dimen279
+\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen280
+\l__glossaries_tree_level_int=\count362
+\glstreeindent=\skip110
 ))
 (/usr/share/texmf-dist/tex/latex/glossaries/styles/glossary-superragged.sty
 Package: glossary-superragged 2025/11/09 v4.9 (NLCT)
@@ -870,29 +899,29 @@ Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )))
 (/usr/share/texmf-dist/tex/latex/koma-script/tocbasic.sty
 Package: tocbasic 2026/02/02 v3.49.2 KOMA-Script package (handling toc-files)
-\scr@dte@tocline@numberwidth=\skip110
-\scr@dte@tocline@numbox=\box82
+\scr@dte@tocline@numberwidth=\skip111
+\scr@dte@tocline@numbox=\box83
 )
 (/usr/share/texmf-dist/tex/latex/blindtext/blindtext.sty
 Package: blindtext 2012/01/06 V2.0 blindtext-Package
-\c@blindtext=\count361
-\c@Blindtext=\count362
-\c@blind@countparstart=\count363
-\blind@countxx=\count364
-\blindtext@numBlindtext=\count365
-\blind@countyy=\count366
-\c@blindlist=\count367
-\c@blindlistlevel=\count368
-\c@blindlist@level=\count369
-\blind@listitem=\count370
-\c@blind@listcount=\count371
-\c@blind@levelcount=\count372
-\blind@mathformula=\count373
-\blind@Mathformula=\count374
-\c@blind@randomcount=\count375
-\c@blind@randommax=\count376
-\c@blind@pangramcount=\count377
-\c@blind@pangrammax=\count378
+\c@blindtext=\count363
+\c@Blindtext=\count364
+\c@blind@countparstart=\count365
+\blind@countxx=\count366
+\blindtext@numBlindtext=\count367
+\blind@countyy=\count368
+\c@blindlist=\count369
+\c@blindlistlevel=\count370
+\c@blindlist@level=\count371
+\blind@listitem=\count372
+\c@blind@listcount=\count373
+\c@blind@levelcount=\count374
+\blind@mathformula=\count375
+\blind@Mathformula=\count376
+\c@blind@randomcount=\count377
+\c@blind@randommax=\count378
+\c@blind@pangramcount=\count379
+\c@blind@pangrammax=\count380
 )
 (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2025/07/10 v3.21 programmable bibliographies (PK/MW)
@@ -910,68 +939,68 @@ Package pdftexcmds Info: \pdfdraftmode found.
 )
 (/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count379
+\lrq@indent=\count381
 
 (/usr/share/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count380
-\c@listtotal=\count381
-\c@listcount=\count382
-\c@liststart=\count383
-\c@liststop=\count384
-\c@citecount=\count385
-\c@citetotal=\count386
-\c@multicitecount=\count387
-\c@multicitetotal=\count388
-\c@instcount=\count389
-\c@maxnames=\count390
-\c@minnames=\count391
-\c@maxitems=\count392
-\c@minitems=\count393
-\c@citecounter=\count394
-\c@maxcitecounter=\count395
-\c@savedcitecounter=\count396
-\c@uniquelist=\count397
-\c@uniquename=\count398
-\c@refsection=\count399
-\c@refsegment=\count400
-\c@maxextratitle=\count401
-\c@maxextratitleyear=\count402
-\c@maxextraname=\count403
-\c@maxextradate=\count404
-\c@maxextraalpha=\count405
-\c@abbrvpenalty=\count406
-\c@highnamepenalty=\count407
-\c@lownamepenalty=\count408
-\c@maxparens=\count409
-\c@parenlevel=\count410
-\blx@tempcnta=\count411
-\blx@tempcntb=\count412
-\blx@tempcntc=\count413
-\c@blx@maxsection=\count414
-\blx@maxsegment@0=\count415
-\blx@notetype=\count416
-\blx@parenlevel@text=\count417
-\blx@parenlevel@foot=\count418
-\blx@sectionciteorder@0=\count419
-\blx@sectionciteorderinternal@0=\count420
-\blx@entrysetcounter=\count421
-\blx@biblioinstance=\count422
-\labelnumberwidth=\skip111
-\labelalphawidth=\skip112
-\biblabelsep=\skip113
-\bibitemsep=\skip114
-\bibnamesep=\skip115
-\bibinitsep=\skip116
-\bibparsep=\skip117
-\bibhang=\skip118
+\c@tabx@nest=\count382
+\c@listtotal=\count383
+\c@listcount=\count384
+\c@liststart=\count385
+\c@liststop=\count386
+\c@citecount=\count387
+\c@citetotal=\count388
+\c@multicitecount=\count389
+\c@multicitetotal=\count390
+\c@instcount=\count391
+\c@maxnames=\count392
+\c@minnames=\count393
+\c@maxitems=\count394
+\c@minitems=\count395
+\c@citecounter=\count396
+\c@maxcitecounter=\count397
+\c@savedcitecounter=\count398
+\c@uniquelist=\count399
+\c@uniquename=\count400
+\c@refsection=\count401
+\c@refsegment=\count402
+\c@maxextratitle=\count403
+\c@maxextratitleyear=\count404
+\c@maxextraname=\count405
+\c@maxextradate=\count406
+\c@maxextraalpha=\count407
+\c@abbrvpenalty=\count408
+\c@highnamepenalty=\count409
+\c@lownamepenalty=\count410
+\c@maxparens=\count411
+\c@parenlevel=\count412
+\blx@tempcnta=\count413
+\blx@tempcntb=\count414
+\blx@tempcntc=\count415
+\c@blx@maxsection=\count416
+\blx@maxsegment@0=\count417
+\blx@notetype=\count418
+\blx@parenlevel@text=\count419
+\blx@parenlevel@foot=\count420
+\blx@sectionciteorder@0=\count421
+\blx@sectionciteorderinternal@0=\count422
+\blx@entrysetcounter=\count423
+\blx@biblioinstance=\count424
+\labelnumberwidth=\skip112
+\labelalphawidth=\skip113
+\biblabelsep=\skip114
+\bibitemsep=\skip115
+\bibnamesep=\skip116
+\bibinitsep=\skip117
+\bibparsep=\skip118
+\bibhang=\skip119
 \blx@bcfin=\read4
 \blx@bcfout=\write4
 \blx@langwohyphens=\language30
-\c@mincomprange=\count423
-\c@maxcomprange=\count424
-\c@mincompwidth=\count425
+\c@mincomprange=\count425
+\c@maxcomprange=\count426
+\c@mincompwidth=\count427
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -982,88 +1011,88 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'ieee.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count426
-\c@savedafterword=\count427
-\c@annotator=\count428
-\c@savedannotator=\count429
-\c@author=\count430
-\c@savedauthor=\count431
-\c@bookauthor=\count432
-\c@savedbookauthor=\count433
-\c@commentator=\count434
-\c@savedcommentator=\count435
-\c@editor=\count436
-\c@savededitor=\count437
-\c@editora=\count438
-\c@savededitora=\count439
-\c@editorb=\count440
-\c@savededitorb=\count441
-\c@editorc=\count442
-\c@savededitorc=\count443
-\c@foreword=\count444
-\c@savedforeword=\count445
-\c@holder=\count446
-\c@savedholder=\count447
-\c@introduction=\count448
-\c@savedintroduction=\count449
-\c@namea=\count450
-\c@savednamea=\count451
-\c@nameb=\count452
-\c@savednameb=\count453
-\c@namec=\count454
-\c@savednamec=\count455
-\c@translator=\count456
-\c@savedtranslator=\count457
-\c@shortauthor=\count458
-\c@savedshortauthor=\count459
-\c@shorteditor=\count460
-\c@savedshorteditor=\count461
-\c@labelname=\count462
-\c@savedlabelname=\count463
-\c@institution=\count464
-\c@savedinstitution=\count465
-\c@lista=\count466
-\c@savedlista=\count467
-\c@listb=\count468
-\c@savedlistb=\count469
-\c@listc=\count470
-\c@savedlistc=\count471
-\c@listd=\count472
-\c@savedlistd=\count473
-\c@liste=\count474
-\c@savedliste=\count475
-\c@listf=\count476
-\c@savedlistf=\count477
-\c@location=\count478
-\c@savedlocation=\count479
-\c@organization=\count480
-\c@savedorganization=\count481
-\c@origlocation=\count482
-\c@savedoriglocation=\count483
-\c@origpublisher=\count484
-\c@savedorigpublisher=\count485
-\c@publisher=\count486
-\c@savedpublisher=\count487
-\c@language=\count488
-\c@savedlanguage=\count489
-\c@origlanguage=\count490
-\c@savedoriglanguage=\count491
-\c@pageref=\count492
-\c@savedpageref=\count493
-\shorthandwidth=\skip119
-\shortjournalwidth=\skip120
-\shortserieswidth=\skip121
-\shorttitlewidth=\skip122
-\shortauthorwidth=\skip123
-\shorteditorwidth=\skip124
-\locallabelnumberwidth=\skip125
-\locallabelalphawidth=\skip126
-\localshorthandwidth=\skip127
-\localshortjournalwidth=\skip128
-\localshortserieswidth=\skip129
-\localshorttitlewidth=\skip130
-\localshortauthorwidth=\skip131
-\localshorteditorwidth=\skip132
+\c@afterword=\count428
+\c@savedafterword=\count429
+\c@annotator=\count430
+\c@savedannotator=\count431
+\c@author=\count432
+\c@savedauthor=\count433
+\c@bookauthor=\count434
+\c@savedbookauthor=\count435
+\c@commentator=\count436
+\c@savedcommentator=\count437
+\c@editor=\count438
+\c@savededitor=\count439
+\c@editora=\count440
+\c@savededitora=\count441
+\c@editorb=\count442
+\c@savededitorb=\count443
+\c@editorc=\count444
+\c@savededitorc=\count445
+\c@foreword=\count446
+\c@savedforeword=\count447
+\c@holder=\count448
+\c@savedholder=\count449
+\c@introduction=\count450
+\c@savedintroduction=\count451
+\c@namea=\count452
+\c@savednamea=\count453
+\c@nameb=\count454
+\c@savednameb=\count455
+\c@namec=\count456
+\c@savednamec=\count457
+\c@translator=\count458
+\c@savedtranslator=\count459
+\c@shortauthor=\count460
+\c@savedshortauthor=\count461
+\c@shorteditor=\count462
+\c@savedshorteditor=\count463
+\c@labelname=\count464
+\c@savedlabelname=\count465
+\c@institution=\count466
+\c@savedinstitution=\count467
+\c@lista=\count468
+\c@savedlista=\count469
+\c@listb=\count470
+\c@savedlistb=\count471
+\c@listc=\count472
+\c@savedlistc=\count473
+\c@listd=\count474
+\c@savedlistd=\count475
+\c@liste=\count476
+\c@savedliste=\count477
+\c@listf=\count478
+\c@savedlistf=\count479
+\c@location=\count480
+\c@savedlocation=\count481
+\c@organization=\count482
+\c@savedorganization=\count483
+\c@origlocation=\count484
+\c@savedoriglocation=\count485
+\c@origpublisher=\count486
+\c@savedorigpublisher=\count487
+\c@publisher=\count488
+\c@savedpublisher=\count489
+\c@language=\count490
+\c@savedlanguage=\count491
+\c@origlanguage=\count492
+\c@savedoriglanguage=\count493
+\c@pageref=\count494
+\c@savedpageref=\count495
+\shorthandwidth=\skip120
+\shortjournalwidth=\skip121
+\shortserieswidth=\skip122
+\shorttitlewidth=\skip123
+\shortauthorwidth=\skip124
+\shorteditorwidth=\skip125
+\locallabelnumberwidth=\skip126
+\locallabelalphawidth=\skip127
+\localshorthandwidth=\skip128
+\localshortjournalwidth=\skip129
+\localshortserieswidth=\skip130
+\localshorttitlewidth=\skip131
+\localshortauthorwidth=\skip132
+\localshorteditorwidth=\skip133
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
 
@@ -1085,19 +1114,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
-\c@textcitecount=\count494
-\c@textcitetotal=\count495
-\c@textcitemaxnames=\count496
-\c@biburlbigbreakpenalty=\count497
-\c@biburlbreakpenalty=\count498
-\c@biburlnumpenalty=\count499
-\c@biburlucpenalty=\count500
-\c@biburllcpenalty=\count501
+\c@textcitecount=\count496
+\c@textcitetotal=\count497
+\c@textcitemaxnames=\count498
+\c@biburlbigbreakpenalty=\count499
+\c@biburlbreakpenalty=\count500
+\c@biburlnumpenalty=\count501
+\c@biburlucpenalty=\count502
+\c@biburllcpenalty=\count503
 \biburlbigskip=\muskip19
 \biburlnumskip=\muskip20
 \biburlucskip=\muskip21
 \biburllcskip=\muskip22
-\c@smartand=\count502
+\c@smartand=\count504
 )
 Package biblatex Info: Trying to load bibliography style 'ieee'...
 Package biblatex Info: ... file 'ieee.bbx' found.
@@ -1119,8 +1148,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count503
-\c@bbx:relatedtotal=\count504
+\c@bbx:relatedcount=\count505
+\c@bbx:relatedtotal=\count506
 ))))
 Package biblatex Info: Trying to load citation style 'ieee'...
 Package biblatex Info: ... file 'ieee.cbx' found.
@@ -1157,7 +1186,7 @@ Package: expl3 2026-01-19 L3 programming layer (loader)
 
 (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count505
+\l__color_backend_stack_int=\count507
 ))
 Package biblatex Info: ... and expl3
 (biblatex)             2026-01-19 L3 programming layer (loader) 
@@ -1170,11 +1199,6 @@ Package: xparse 2025-10-09 L3 Experimental document command parser
 )
 Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
 ))
-
-LaTeX Warning: \include should only be used after \begin{document} on input lin
-e 59.
-
-No file lstlisting.
 (../glossary.tex) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2026-01-29 v7.01p Hypertext links for LaTeX
 
@@ -1196,15 +1220,15 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count506
+\c@section@level=\count508
 )
 (/usr/share/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen280
-\Hy@linkcounter=\count507
-\Hy@pagecounter=\count508
+\@linkdim=\dimen281
+\Hy@linkcounter=\count509
+\Hy@pagecounter=\count510
 
 (/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2026-01-29 v7.01p Hyperref: PDFDocEncoding definition (HO)
@@ -1214,7 +1238,7 @@ Now handling font encoding PD1 ...
 (/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count509
+\Hy@SavedSpaceFactor=\count511
 
 (/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2026-01-29 v7.01p Hyperref: PDF Unicode definition (HO)
@@ -1228,9 +1252,9 @@ Package hyperref Info: Plain pages OFF on input line 4216.
 Package hyperref Info: Backreferencing OFF on input line 4221.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4468.
-\c@Hy@tempcnt=\count510
+\c@Hy@tempcnt=\count512
 LaTeX Info: Redefining \url on input line 4807.
-\XeTeXLinkMargin=\dimen281
+\XeTeXLinkMargin=\dimen282
 
 (/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -1239,9 +1263,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count511
-\Field@Width=\dimen282
-\Fld@charsize=\dimen283
+\Fld@menulength=\count513
+\Field@Width=\dimen283
+\Fld@charsize=\dimen284
 Package hyperref Info: Hyper figures OFF on input line 6084.
 Package hyperref Info: Link nesting OFF on input line 6089.
 Package hyperref Info: Hyper index ON on input line 6092.
@@ -1249,16 +1273,16 @@ Package hyperref Info: backreferencing OFF on input line 6099.
 Package hyperref Info: Link coloring OFF on input line 6104.
 Package hyperref Info: Link coloring with OCG OFF on input line 6109.
 Package hyperref Info: PDF/A mode OFF on input line 6114.
-\Hy@abspage=\count512
-\c@Item=\count513
-\c@Hfootnote=\count514
+\Hy@abspage=\count514
+\c@Item=\count515
+\c@Hfootnote=\count516
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2026-01-29 v7.01p Hyperref driver for pdfTeX
-\Fld@listcount=\count515
-\c@bookmark@seq@number=\count516
+\Fld@listcount=\count517
+\c@bookmark@seq@number=\count518
 
 (/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
@@ -1269,7 +1293,7 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 84.
 )
-\Hy@SectionHShift=\skip133
+\Hy@SectionHShift=\skip134
 )
 (/usr/share/texmf-dist/tex/latex/hypcap/hypcap.sty
 Package: hypcap 2024-07-26 v1.13 Adjusting the anchors of captions (HO)
@@ -1277,14 +1301,14 @@ Package: hypcap 2024-07-26 v1.13 Adjusting the anchors of captions (HO)
 (/usr/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 ))
-\c@example=\count517
+\c@example=\count519
 ))
 
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
 
-\@quotelevel=\count518
-\@quotereset=\count519
+\@quotelevel=\count520
+\@quotereset=\count521
 LaTeX Font Info:    Trying to load font information for T5+ptm on input line 2.
 
 (/usr/share/texmf-dist/tex/latex/vntex/t5ptm.fd
@@ -1294,14 +1318,7 @@ File: t5utm.fd 2005/08/24 Fontinst v1.929 font definitions for T5/ptm.
 LaTeX Warning: Unused global option(s):
     [13pt,3p].
 
-(./1_Introduction.aux
-
-LaTeX Warning: Label `sec:dvd' multiply defined.
-
-
-LaTeX Warning: Label `sec:giaiphap' multiply defined.
-
-)
+(./1_Introduction.aux)
 \openout1 = `1_Introduction.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
@@ -1361,17 +1378,17 @@ LaTeX Font Info:    ... okay on input line 2.
 
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count520
-\scratchdimen=\dimen284
-\scratchbox=\box83
-\nofMPsegments=\count521
-\nofMParguments=\count522
-\everyMPshowfont=\toks56
-\MPscratchCnt=\count523
-\MPscratchDim=\dimen285
-\MPnumerator=\count524
-\makeMPintoPDFobject=\count525
-\everyMPtoPDFconversion=\toks57
+\scratchcounter=\count522
+\scratchdimen=\dimen285
+\scratchbox=\box84
+\nofMPsegments=\count523
+\nofMParguments=\count524
+\everyMPshowfont=\toks58
+\MPscratchCnt=\count525
+\MPscratchDim=\dimen286
+\MPnumerator=\count526
+\makeMPintoPDFobject=\count527
+\everyMPtoPDFconversion=\toks59
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 
@@ -1389,19 +1406,44 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+LaTeX Info: Redefining \microtypecontext on input line 2.
+Package microtype Info: Applying patch `item' on input line 2.
+Package microtype Info: Applying patch `toc' on input line 2.
+Package microtype Info: Applying patch `eqnum' on input line 2.
+Package microtype Info: Applying patch `footnote' on input line 2.
+Package microtype Info: Applying patch `verbatim' on input line 2.
+LaTeX Info: Redefining \microtypesetup on input line 2.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+Package microtype Info: Patching command `\showhyphens'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+
+(/usr/share/texmf-dist/tex/latex/microtype/mt-ptm.cfg
+File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
+)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ptm/m/n/13'. Switching off
+(microtype)                protrusion for this font on input line 2.
+
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: hypcap package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
-
 (/usr/share/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: supertabular package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count526
+\c@lstlisting=\count528
 Package tocbasic Info: setting babel extension for `lol' on input line 2.
 Package biblatex Info: Trying to load language 'nil'...
 Package biblatex Info: ... file 'nil.lbx' not found.
@@ -1429,53 +1471,15 @@ Package hyperref Info: Link coloring OFF on input line 2.
 \openout5 = `1_Introduction.out'.
 
 
-Ch\uhorn \ohorn ng 1.
 
-Overfull \hbox (14.82959pt too wide) in paragraph at lines 6--7
-[]\T5/ptm/m/n/13 Isosurface extraction is a fundamental problem in scientific v
-isualization, computer
- []
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ptm/b/n/13'. Switching off
+(microtype)                protrusion for this font on input line 6.
 
 
-Overfull \hbox (31.09454pt too wide) in paragraph at lines 11--12
-\T5/ptm/m/n/13 simulations, geological surveys, and scientific experiments. The
-se datasets are commonly
- []
-
-
-Overfull \hbox (15.23457pt too wide) in paragraph at lines 11--12
-\T5/ptm/m/n/13 the underlying data contain valuable information about internal 
-structures and physical
- []
-
-
-Overfull \hbox (10.56757pt too wide) in paragraph at lines 13--14
-\T5/ptm/m/n/13 into explicit geometric representations. Given a scalar field an
-d a predefined isovalue,
- []
-
-
-Overfull \hbox (6.69354pt too wide) in paragraph at lines 15--16
-\T5/ptm/m/n/13 they help researchers visualize temperature distributions, press
-ure fields, and density
- []
-
-
-Overfull \hbox (5.25058pt too wide) in paragraph at lines 17--18
-\T5/ptm/m/n/13 applications increasingly require higher accuracy, improved topo
-logical consistency,
- []
-
-
-Overfull \hbox (6.48557pt too wide) in paragraph at lines 17--18
-\T5/ptm/m/n/13 reduced computational cost, and support for large-scale datasets
-. Therefore, studying
- []
-
-
-Overfull \hbox (21.55255pt too wide) in paragraph at lines 17--18
-\T5/ptm/m/n/13 and improving isosurface extraction algorithms remains an import
-ant research direction
+Underfull \hbox (badness 1286) in paragraph at lines 11--12
+\T5/ptm/m/n/13 (+20) Nevertheless, the generated meshes are primarily optimized
+ for geometric
  []
 
 
@@ -1483,108 +1487,45 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [1
 
-
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts
 /enc/dvips/vntex/t5.enc}]
-Overfull \hbox (1.11656pt too wide) in paragraph at lines 22--23
-\T5/ptm/m/n/13 different characteristics regarding accuracy, efficiency, and to
-pological correctness.
- []
+<../Figure/Figure1-Pipeline.png, id=31, 1541.76pt x 1027.84pt>
+File: ../Figure/Figure1-Pipeline.png Graphic file (type png)
+<use ../Figure/Figure1-Pipeline.png>
+Package pdftex.def Info: ../Figure/Figure1-Pipeline.png  used on input line 31.
+
+(pdftex.def)             Requested size: 426.79135pt x 284.51537pt.
 
 
-Overfull \hbox (47.64359pt too wide) in paragraph at lines 22--23
-\T5/ptm/m/n/13 This approach processes volumetric data cell by cell and generat
-es polygonal approximations
- []
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ptm/m/n/11.86258'. Switching off
+(microtype)                protrusion for this font on input line 32.
 
 
-Overfull \hbox (22.86353pt too wide) in paragraph at lines 26--27
-[]\T5/ptm/m/n/13 Although existing methods have demonstrated significant succes
-s, several challenges
- []
-
-
-Overfull \hbox (18.83556pt too wide) in paragraph at lines 26--27
-\T5/ptm/m/n/13 containing poorly shaped polygons, which may negatively affect s
-ubsequent processing
- []
-
-
-Overfull \hbox (2.15651pt too wide) in paragraph at lines 28--29
-\T5/ptm/m/n/13 of isosurface extraction algorithms. Research efforts continue t
-o focus on improving
- []
-
-
-Overfull \hbox (2.2325pt too wide) in paragraph at lines 32--33
-[]\T5/ptm/m/n/13 The primary objective of this thesis is to investigate existin
-g isosurface extraction
- []
-
-
-Overfull \hbox (11.97154pt too wide) in paragraph at lines 34--35
-\T5/ptm/m/n/13 scalar field representation and isosurface reconstruction. Subse
-quently, representative
- []
-
-
-Overfull \hbox (2.40356pt too wide) in paragraph at lines 34--35
-\T5/ptm/m/n/13 algorithms are studied and compared with respect to their streng
-ths and weaknesses.
- []
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ptm/b/n/11.86258'. Switching off
+(microtype)                protrusion for this font on input line 32.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
-Overfull \hbox (4.60162pt too wide) in paragraph at lines 45--46
-\T5/ptm/m/n/13 algorithms, including their theoretical foundations, advantages,
- and limitations. 
- []
-
-
-Overfull \hbox (19.27867pt too wide) in paragraph at lines 47--48
-\T5/ptm/m/n/13 accuracy and topological consistency while maintaining computati
-onal efficiency. 
- []
-
-
-Overfull \hbox (38.49257pt too wide) in paragraph at lines 49--50
-[]\T5/ptm/m/n/13 An experimental evaluation on volumetric datasets that demonst
-rates the effectiveness
- []
-
-
-Overfull \hbox (1.06255pt too wide) in paragraph at lines 58--59
-[]\T5/ptm/m/n/13 Chapter 3 reviews existing isosurface extraction algorithms in
- detail. The chapter
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3]
-Overfull \hbox (6.87355pt too wide) in paragraph at lines 62--63
-[]\T5/ptm/m/n/13 Chapter 5 reports the experimental setup, evaluation metrics, 
-datasets, and results.
- []
-
-
-Overfull \hbox (4.84761pt too wide) in paragraph at lines 62--63
-\T5/ptm/m/n/13 Quantitative and qualitative analyses are conducted to compare t
-he proposed method
- []
-
-
-Overfull \hbox (29.33952pt too wide) in paragraph at lines 64--65
-\T5/ptm/m/n/13 achieved contributions, discusses remaining limitations, and sug
-gests potential directions
- []
-
-
+[3 <../Figure/Figure1-Pipeline.png (PNG copy)>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
+Underfull \hbox (badness 1142) in paragraph at lines 59--60
+\T5/ptm/m/n/13 (+20) generated by the original FlexiCubes algorithm using both 
+geometric and
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 69--70
+\T5/ptm/m/n/13 (+20) accuracy and topological consistency while maintaining com
+putational
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5]
@@ -1603,29 +1544,26 @@ L3 programming layer <2026-01-19>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `1_Introduction.out' has not changed.
-(rerunfilecheck)             Checksum: 29D494E3CE2A65FF8DE8B8005D994358;2022.
+(rerunfilecheck)             Checksum: C7271B8A7BB103C41CC17B7BE413BD82;936.
 Package logreq Info: Writing requests to '1_Introduction.run.xml'.
 \openout1 = `1_Introduction.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33481 strings out of 468995
- 620299 string characters out of 5460435
- 1335964 words of memory out of 5000000
- 61825 multiletter control sequences out of 15000+600000
- 633518 words of font info for 44 fonts, out of 8000000 for 9000
+ 35362 strings out of 468995
+ 652329 string characters out of 5460435
+ 1398498 words of memory out of 5000000
+ 63618 multiletter control sequences out of 15000+600000
+ 644181 words of font info for 88 fonts, out of 8000000 for 9000
  264 hyphenation exceptions out of 8191
- 128i,11n,124p,2555b,473s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,6n,124p,2555b,502s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texmf-d
 ist/fonts/type1/vntex/urwvn/utmr8v.pfb>
-Output written on 1_Introduction.pdf (6 pages, 59904 bytes).
+Output written on 1_Introduction.pdf (6 pages, 1671617 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
- 24 named destinations out of 1000 (max. 500000)
- 89 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 74 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 8238 words of extra memory for PDF output out of 10000 (max. 10000000)
 

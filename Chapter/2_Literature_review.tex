@@ -60,7 +60,7 @@ Nevertheless, FlexiCubes primarily focuses on geometric reconstruction accuracy.
 
 Recent advances in generative artificial intelligence have enabled the creation of three-dimensional assets directly from text descriptions, images, or sparse observations. Many of these approaches operate in a latent representation space using neural implicit representations such as Occupancy Networks~\cite{mescheder2019occupancy}, DeepSDF~\cite{park2019deepsdf}, and Neural Radiance Fields (NeRF)~\cite{mildenhall2020nerf}.
 
-A representative example is TRELLIS~\cite{trellis2024}, which employs structured latent representations for large-scale 3D generation. Instead of directly predicting polygonal meshes, TRELLIS learns latent features that can be decoded into various geometric representations, including implicit fields and volumetric structures. This design allows the model to capture both local geometric details and global shape semantics while maintaining efficient inference.
+A representative example is TRELLIS~\cite{xiang2024structured}, which employs structured latent representations for large-scale 3D generation. Instead of directly predicting polygonal meshes, TRELLIS learns latent features that can be decoded into various geometric representations, including implicit fields and volumetric structures. This design allows the model to capture both local geometric details and global shape semantics while maintaining efficient inference.
 
 Other recent methods similarly rely on latent diffusion models, neural implicit fields, or sparse volumetric representations to generate 3D content. These approaches have significantly improved the quality and diversity of generated assets. However, most generated geometries ultimately require an explicit mesh representation before they can be edited, animated, or integrated into production workflows.
 
@@ -78,15 +78,15 @@ This thesis addresses this research gap by investigating topology-aware modifica
 
 \subsection{ShapeNetCore as a Source of Topology Priors}
 
-A key objective of this thesis is to improve the topology of meshes generated from implicit representations. To achieve this goal, a source of high-quality topology information is required. ShapeNetCore~\cite{chang2015shapenet,shapenetcore} is selected for this purpose because it contains a large collection of manually created CAD models that have been designed according to established modeling practices.
+A key objective of this thesis is to improve the topology of meshes generated from implicit representations. To achieve this goal, a source of high-quality topology information is required. ShapeNetCore~\cite{shapenet2015} is selected for this purpose because it contains a large collection of manually created CAD models that have been designed according to established modeling practices.
 
 ShapeNetCore provides thousands of polygonal meshes across diverse object categories, including furniture, vehicles, household objects, and industrial components. Unlike automatically generated meshes, these models typically exhibit structured edge flow, regular polygon distributions, and topology layouts that facilitate editing and further geometric processing. As a result, the dataset serves as a valuable source of topology information that reflects common practices in professional modeling workflows.
 
-In this thesis, ShapeNetCore~\cite{chang2015shapenet} is not used solely as an evaluation benchmark. Instead, the dataset is analyzed to identify topological characteristics that can be incorporated into the mesh extraction process. Examples of such characteristics include vertex valence distributions, local connectivity patterns, edge-flow structures, and face regularity statistics. These observations are used to construct topology priors that guide the generation of more structured meshes.
+In this thesis, ShapeNetCore~\cite{shapenet2015} is not used solely as an evaluation benchmark. Instead, the dataset is analyzed to identify topological characteristics that can be incorporated into the mesh extraction process. Examples of such characteristics include vertex valence distributions, local connectivity patterns, edge-flow structures, and face regularity statistics. These observations are used to construct topology priors that guide the generation of more structured meshes.
 
 \subsection{TRELLIS-Generated Geometry}
 
-TRELLIS~\cite{trellis2024} is a modern generative framework capable of producing three-dimensional assets from latent representations. The generated geometry is typically represented as volumetric or implicit data structures that require a subsequent mesh extraction stage before they can be used in conventional graphics applications.
+TRELLIS~\cite{xiang2024structured} is a modern generative framework capable of producing three-dimensional assets from latent representations. The generated geometry is typically represented as volumetric or implicit data structures that require a subsequent mesh extraction stage before they can be used in conventional graphics applications.
 
 Although TRELLIS is capable of generating geometrically detailed shapes, the resulting meshes obtained through standard extraction methods are primarily optimized for surface reconstruction accuracy. Consequently, the generated meshes may contain irregular connectivity, non-uniform polygon distributions, and topological structures that are difficult to edit or animate.
 
@@ -134,6 +134,12 @@ where $f(\mathbf{x})$ is a scalar-valued function and $c$ is a predefined isoval
 Implicit representations offer several advantages. They provide continuous geometric descriptions, naturally support topology changes, and can represent complex structures without explicitly storing connectivity information. These properties have led to widespread adoption in neural reconstruction and generative modeling systems.
 
 However, implicit surfaces cannot be directly used in conventional modeling and animation software. An isosurface extraction stage is therefore required to convert the implicit representation into an explicit polygonal mesh. This process evaluates the scalar field on a discrete spatial grid and reconstructs the surface corresponding to the chosen isovalue.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Figure/Figure2-ImplicitExplicit.png}
+	\caption{Comparison of implicit and explicit geometric representations.}
+	\label{fig:representation}
+\end{figure}
 
 A variety of extraction methods have been proposed, including Marching Cubes, Dual Contouring, DMTet, and FlexiCubes. Early approaches focused primarily on geometric reconstruction, whereas more recent methods emphasize differentiability and compatibility with optimization-based learning frameworks. Among these methods, FlexiCubes introduces learnable geometric configurations that improve reconstruction quality while maintaining efficient gradient propagation.
 
@@ -153,7 +159,6 @@ In this thesis, topology priors are extracted from ShapeNetCore, a large collect
 
 By combining topology priors with differentiable isosurface extraction, the proposed approach seeks to generate meshes that preserve geometric fidelity while exhibiting connectivity structures more suitable for modeling, rigging, and animation workflows.
 
-\section*{Chapter Summary}
 
 This chapter has presented the scope of the research, reviewed existing work on isosurface extraction, and introduced the datasets and background knowledge relevant to the proposed approach. The discussion of related work highlighted the progression from classical methods such as Marching Cubes to recent differentiable frameworks including DMTet and FlexiCubes. These methods have significantly improved the quality and flexibility of mesh reconstruction from implicit representations; however, they remain primarily focused on geometric accuracy rather than mesh structure.
 

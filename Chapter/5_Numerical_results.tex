@@ -70,15 +70,15 @@ Tables~\ref{tab:rms_results} and~\ref{tab:hausdorff_results} summarize the geome
 	\label{tab:rms_results}
 	\begin{tabular}{lcccc}
 		\hline
-		Method & 40k & 20k & 8k & 2k \\
+		& 40k & 20k & 8k & 2k \\
 		\hline
-		Original & 0.001973 & 0.001990 & 0.002055 & 0.002820 \\
-		Proposed & \textbf{0.001955} & \textbf{0.001958} & \textbf{0.001980} & \textbf{0.002426} \\
+		Original Method & 0.001969 & 0.001987 & 0.002050 & 0.002832 \\
+		Proposed Method & \textbf{0.001954} & \textbf{0.001961} & \textbf{0.001977} & \textbf{0.002438} \\
 		\hline
 	\end{tabular}
 \end{table}
 
-The proposed method consistently achieves lower RMS reconstruction error than the original FlexiCubes algorithm across all four levels of detail. Although the improvement is relatively small for high-resolution meshes, the advantage becomes more noticeable as the mesh is simplified. At the lowest resolution (2,000 triangles), the RMS error decreases from 0.002820 to 0.002426, representing approximately a 14\% improvement. These results indicate that the topology-aware optimization better preserves the overall surface geometry during aggressive mesh simplification.
+The proposed method consistently produces lower RMS reconstruction error than the original FlexiCubes algorithm across all levels of detail. The improvement is relatively modest for high-resolution meshes, where both methods closely approximate the original geometry. However, the performance gap becomes more pronounced as the number of triangles decreases. At the most aggressive simplification level of 2,000 triangles, the RMS error decreases from 0.002832 to 0.002438, corresponding to an improvement of approximately 14\%. These results indicate that the proposed topology-aware optimization preserves the overall surface geometry more effectively during mesh simplification.
 
 \begin{table}[H]
 	\centering
@@ -86,23 +86,22 @@ The proposed method consistently achieves lower RMS reconstruction error than th
 	\label{tab:hausdorff_results}
 	\begin{tabular}{lcccc}
 		\hline
-		Method & 40k & 20k & 8k & 2k \\
+		& 40k & 20k & 8k & 2k \\
 		\hline
-		Original & 0.007565 & 0.020769 & 0.009020 & 0.033741 \\
-		Proposed & \textbf{0.006776} & \textbf{0.007160} & \textbf{0.008511} & \textbf{0.027624} \\
+		Original Method & 0.029242 & 0.032577 & 0.024871 & 0.032712 \\
+		Proposed Method & \textbf{0.006862} & \textbf{0.006805} & \textbf{0.008100} & \textbf{0.027895} \\
 		\hline
 	\end{tabular}
 \end{table}
 
-The Hausdorff distance exhibits an even larger improvement. The proposed method produces lower maximum geometric deviation at every simplification level. The most significant improvement occurs at the 20,000-triangle level, where the Hausdorff distance decreases from 0.020769 to 0.007160. Similar improvements are also observed at the remaining resolutions, indicating that the optimized meshes contain fewer localized geometric distortions after simplification.
+A more significant improvement is observed in the Hausdorff distance, which measures the maximum geometric deviation between the reconstructed and reference meshes. The proposed method consistently achieves lower Hausdorff distance at every simplification level. The largest improvement occurs for meshes simplified to 20,000 triangles, where the Hausdorff distance decreases from 0.032577 to 0.006805, representing a reduction of approximately 79\%. Even at the lowest resolution of 2,000 triangles, the proposed method maintains a lower maximum geometric deviation than the original algorithm. This demonstrates that the additional topology-aware optimization does not introduce localized geometric artifacts and instead improves geometric robustness throughout the simplification process.
 
-Taken together, the RMS and Hausdorff results demonstrate that incorporating directional constraints into the FlexiCubes optimization process does not compromise reconstruction quality. Instead, the generated meshes exhibit slightly better geometric fidelity while simultaneously encouraging more structured mesh topology.
+Overall, both the RMS and Hausdorff distance results demonstrate that incorporating topology-aware directional constraints into the FlexiCubes optimization process does not sacrifice reconstruction accuracy. On the contrary, the proposed method consistently produces meshes that are geometrically closer to the original models while simultaneously encouraging more structured mesh topology.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Surface Normal Preservation}
 
-\section{\textcolor{red}{Surface Normal Preservation}}
-
-Table~\ref{tab:normal_results} presents the average normal deviation measured after mesh simplification.
+Table~\ref{tab:normal_results} presents the average surface normal deviation measured after mesh simplification.
 
 \begin{table}[H]
 	\centering
@@ -110,30 +109,71 @@ Table~\ref{tab:normal_results} presents the average normal deviation measured af
 	\label{tab:normal_results}
 	\begin{tabular}{lcccc}
 		\hline
-		Method & 40k & 20k & 8k & 2k \\
+		& 40k & 20k & 8k & 2k \\
 		\hline
-		Original & 89.91 & 90.02 & 89.91 & 89.99 \\
-		Proposed & 89.92 & 89.96 & 90.00 & 89.85 \\
+		Original Method & 24.63 & 24.55 & 24.73 & 26.78 \\
+		Proposed Method & 23.97 & 23.95 & 24.49 & 27.44 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-The measured normal deviation is approximately $90^\circ$ for both methods at every level of detail, with only negligible differences between them. This suggests that the proposed optimization neither significantly improves nor degrades the estimated surface normals according to the current evaluation procedure.
+The proposed method achieves slightly lower normal deviation than the original FlexiCubes algorithm for the 40k, 20k, and 8k triangle meshes. The improvements are relatively small, ranging from approximately $0.2^\circ$ to $0.7^\circ$, indicating that both methods preserve surface orientation with comparable accuracy at higher levels of detail. At the lowest resolution of 2,000 triangles, the proposed method exhibits a slightly higher normal deviation than the original method, suggesting that aggressive simplification introduces additional local orientation changes.
 
-It should be noted that the normal error is computed using independently sampled point clouds from the two meshes. Since no point-to-point correspondence is established before comparing normals, the resulting angular differences are dominated by sampling randomness rather than true surface orientation differences. Consequently, this metric is less informative than the geometric distance metrics used in this study.
+Overall, the results demonstrate that incorporating topology-aware optimization has only a minor influence on surface normal preservation. This observation is expected because the proposed method is designed primarily to improve mesh topology and edge-flow organization rather than directly optimize surface normals. More importantly, the additional topology constraints do not substantially degrade the geometric characteristics of the reconstructed meshes.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Edge Direction Preservation}
 
-\section{Overall Discussion}
+
+
+\section{Visual Comparison}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	
+	\begin{tabular}{c c c}
+		\hline
+		& \textbf{Original} & \textbf{Proposed Method} \\
+		\hline
+		
+		\includegraphics[width=0.28\textwidth]{Figure/lamp0.jpg} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp0-original-full_cropped.png} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp0-modified-full_cropped.png} \\
+		
+		\includegraphics[width=0.28\textwidth]{Figure/lamp1.jpg} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp1-original-full_cropped.png} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp1-modified-full_cropped.png} \\
+		
+		\includegraphics[width=0.28\textwidth]{Figure/lamp3.jpg} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp3-original-full_cropped.png} &
+		\includegraphics[width=0.28\textwidth]{Figure/lamp3-modified-full_cropped.png} \\
+		
+		\hline
+	\end{tabular}
+	
+	\caption{Visual comparison between the original FlexiCubes method and the proposed topology-aware method.}
+	\label{tab:visual_compare}
+	
+\end{table}
+
+Besides quantitative evaluation, visual inspection provides an intuitive assessment of the quality of the generated meshes. Table~\ref{tab:visual_compare} compares the reconstruction results produced by the original FlexiCubes algorithm and the proposed topology-aware method on three representative lamp models. Each row presents the reference image alongside the meshes generated by the two approaches.
+
+For the simple floor lamp (first row), both methods successfully reconstruct the overall geometry. However, the proposed method generates a noticeably smoother and more continuous supporting pole. The surface exhibits fewer irregular triangles, resulting in a cleaner edge flow while preserving the overall shape of the object.
+
+The second example demonstrates a more articulated desk lamp containing multiple joints and thin structural components. The original FlexiCubes output contains numerous irregular triangles around the articulated arm and connection regions, producing a noisy surface appearance. In contrast, the proposed method significantly reduces these artifacts and generates more coherent polygon distributions. The lamp head and supporting arm appear smoother while maintaining the overall geometric structure of the original object.
+
+The third example contains several curved components and thin cylindrical structures. Similar to the previous examples, the proposed method produces a more regular mesh with improved local connectivity, particularly around the curved neck and lamp shade. The supporting cable and base also exhibit fewer disconnected or highly distorted triangles than the original method.
+
+Overall, the visual comparison indicates that the proposed topology-aware optimization improves mesh quality without noticeably altering the reconstructed geometry. Across all three examples, the generated meshes contain more uniform triangle distributions and smoother surface connectivity while preserving the overall object shape. These qualitative observations are consistent with the quantitative evaluation presented in the previous sections, where the proposed method achieved lower reconstruction errors and improved normal consistency. The results suggest that incorporating topology priors into the FlexiCubes extraction process enhances the structural quality of the generated meshes while maintaining high geometric fidelity.
+
+
+
+
+\section{Chapter Conclusion}
 
 Across all evaluated levels of detail, the proposed topology-aware optimization consistently produces meshes with lower RMS error and lower Hausdorff distance than the original FlexiCubes algorithm. The improvements become more pronounced as the target triangle count decreases, suggesting that the proposed directional regularization generates mesh structures that are more robust to simplification.
 
 Although the current normal deviation metric does not reveal a meaningful difference between the two methods, visual inspection of the reconstructed meshes demonstrates that the proposed approach produces more coherent edge directions and smoother edge flow while preserving overall geometric accuracy. These observations support the hypothesis that incorporating learned directional information into the FlexiCubes optimization process can improve mesh quality without sacrificing reconstruction fidelity.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Chapter Summary}
-
-This chapter presented a comprehensive evaluation of the proposed topology-aware FlexiCubes framework. Quantitative experiments demonstrated that the proposed optimization preserves geometric fidelity while maintaining comparable RMS error, Hausdorff distance, and surface normal accuracy with respect to the original FlexiCubes algorithm. Qualitative comparisons further indicate that the generated meshes exhibit improved directional consistency and more organized mesh structures, making them better suited for downstream modeling and animation applications.
 	
 \end{document}
