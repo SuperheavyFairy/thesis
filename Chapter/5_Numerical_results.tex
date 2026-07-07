@@ -19,16 +19,16 @@ triangles.
 
 Mesh simplification is performed using the Quadric Error Metric (QEM) implementation provided by Open3D.
 
-Three quantitative metrics are employed throughout the experiments.
+Four quantitative metrics are employed throughout the experiments to evaluate both the geometric accuracy and the topological quality of the generated meshes.
 
 \begin{itemize}
+	\item \textbf{Root Mean Square (RMS) surface error}, measuring the average geometric deviation between the original mesh and the simplified mesh.
 	
-	\item Root Mean Square (RMS) surface error, which measures the average geometric deviation between the original mesh and its simplified version.
+	\item \textbf{Hausdorff distance}, measuring the maximum geometric deviation and capturing the largest local reconstruction error.
 	
-	\item Hausdorff distance, which evaluates the maximum geometric deviation and captures localized reconstruction errors.
+	\item \textbf{Surface normal deviation}, evaluating the preservation of local surface orientation after mesh simplification.
 	
-	\item Normal deviation, computed as the average angular difference between corresponding surface normals, which measures the preservation of local surface orientation.
-	
+	\item \textbf{Edge-direction error}, measuring the preservation of local edge-flow orientation after mesh simplification.
 \end{itemize}
 
 Since the objective of the proposed method is to improve topology while maintaining geometry, these complementary metrics provide a comprehensive assessment of reconstruction quality.
@@ -51,7 +51,7 @@ For each ShapeNet model, the following procedure is performed:
 	
 	\item Sample dense point clouds from both meshes.
 	
-	\item Compute RMS error, Hausdorff distance, and normal deviation for every level of detail.
+	\item Compute RMS error, Hausdorff distance, normal deviation and edge-direction error for every level of detail.
 	
 \end{enumerate}
 
@@ -96,7 +96,7 @@ The proposed method consistently produces lower RMS reconstruction error than th
 
 A more significant improvement is observed in the Hausdorff distance, which measures the maximum geometric deviation between the reconstructed and reference meshes. The proposed method consistently achieves lower Hausdorff distance at every simplification level. The largest improvement occurs for meshes simplified to 20,000 triangles, where the Hausdorff distance decreases from 0.032577 to 0.006805, representing a reduction of approximately 79\%. Even at the lowest resolution of 2,000 triangles, the proposed method maintains a lower maximum geometric deviation than the original algorithm. This demonstrates that the additional topology-aware optimization does not introduce localized geometric artifacts and instead improves geometric robustness throughout the simplification process.
 
-Overall, both the RMS and Hausdorff distance results demonstrate that incorporating topology-aware directional constraints into the FlexiCubes optimization process does not sacrifice reconstruction accuracy. On the contrary, the proposed method consistently produces meshes that are geometrically closer to the original models while simultaneously encouraging more structured mesh topology.
+Overall, both the RMS and Hausdorff distance results demonstrate that incorporating topology-aware directional constraints into the FlexiCubes optimization process does not sacrifice reconstruction accuracy. On the contrary, the proposed method consistently produces meshes that are geometrically closer to the original models while simultaneously encouraging more structured mesh topology, as confirmed by the edge-direction evaluation presented in Section~\ref{sec:edge_direction_eval}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Surface Normal Preservation}
@@ -112,7 +112,7 @@ Table~\ref{tab:normal_results} presents the average surface normal deviation mea
 		& 40k & 20k & 8k & 2k \\
 		\hline
 		Original Method & 24.63 & 24.55 & 24.73 & 26.78 \\
-		Proposed Method & 23.97 & 23.95 & 24.49 & 27.44 \\
+		Proposed Method & \textbf{23.97} & \textbf{23.95} & \textbf{24.49} & \textbf{27.44} \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -124,6 +124,56 @@ Overall, the results demonstrate that incorporating topology-aware optimization 
 %\section{Edge Direction Preservation}
 
 
+\section{Edge Direction Preservation}
+\label{sec:edge_direction_eval}
+
+To quantitatively evaluate whether the proposed method preserves the underlying edge-flow structure after mesh simplification, an edge-direction metric is introduced. Unlike conventional geometric metrics such as RMS error or Hausdorff distance, this evaluation focuses on the consistency of local mesh orientation, which is directly related to the quality of the generated topology.
+
+For each mesh pair, 10,000 edge samples are randomly selected from the original high-resolution mesh. Each sampled edge is represented by its two incident vertices, from which a normalized edge direction vector is computed as
+
+\begin{equation}
+	\mathbf{d}
+	=
+	\frac{\mathbf{v}_2-\mathbf{v}_1}
+	{\|\mathbf{v}_2-\mathbf{v}_1\|}.
+\end{equation}
+
+For every sampled edge, the corresponding location on the simplified mesh is identified, and the dominant edge direction is computed in the same manner. Let $\mathbf{d}_o$ and $\mathbf{d}_s$ denote the normalized edge directions of the original and simplified meshes, respectively. Their directional similarity is first measured using the dot product,
+
+\begin{equation}
+	x=\mathbf{d}_o^{T}\mathbf{d}_s,
+\end{equation}
+
+where $x\in[-1,1]$.
+
+Because mesh edges are undirected, two vectors pointing in opposite directions represent the same edge orientation. Likewise, orthogonal directions often correspond to valid quadrilateral edge flows. Consequently, desirable directional relationships occur when the dot product is close to $-1$, $0$, or $1$. To emphasize these three desirable cases, the dot product is transformed using
+
+\begin{equation}
+	E(x)=\sin^{2}(\pi x),
+\end{equation}
+
+which produces zero error when $x\in\{-1,0,1\}$ and larger values otherwise. The final edge-direction error is obtained by averaging the transformed values over all sampled edges, with lower values indicating better preservation of the original edge-flow structure.
+
+Table~\ref{tab:edge_results} summarizes the average edge-direction error for both methods under different mesh simplification levels.
+
+\begin{table}[H]
+	\centering
+	\caption{Average edge-direction error}
+	\label{tab:edge_results}
+	\begin{tabular}{lcccc}
+		\hline
+		& 40k & 20k & 8k & 2k \\
+		\hline
+		Original Method & 0.2903 & 0.3502 & 0.3853 & 0.3913 \\
+		Proposed Method & \textbf{0.2354} & \textbf{0.3048} & \textbf{0.3697} & \textbf{0.3885} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The proposed topology-aware optimization consistently achieves lower edge-direction error than the original FlexiCubes algorithm across all four levels of detail. The largest improvement is observed for the 40,000-triangle meshes, where the error decreases from 0.2903 to 0.2354, corresponding to an improvement of approximately 19\%. Similar reductions are obtained for the 20,000- and 8,000-triangle models. Even under aggressive simplification to 2,000 triangles, the proposed method maintains a slight advantage over the baseline.
+
+These results indicate that incorporating topology-aware supervision during FlexiCubes optimization effectively preserves the dominant edge-flow patterns of the original mesh. Although both methods achieve comparable geometric accuracy, the proposed approach generates simplified meshes whose local edge orientations remain more consistent with the original topology, making them better suited for downstream applications such as subdivision, editing, and animation.
+\newpage
 
 \section{Visual Comparison}
 
@@ -173,7 +223,7 @@ Overall, the visual comparison indicates that the proposed topology-aware optimi
 
 Across all evaluated levels of detail, the proposed topology-aware optimization consistently produces meshes with lower RMS error and lower Hausdorff distance than the original FlexiCubes algorithm. The improvements become more pronounced as the target triangle count decreases, suggesting that the proposed directional regularization generates mesh structures that are more robust to simplification.
 
-Although the current normal deviation metric does not reveal a meaningful difference between the two methods, visual inspection of the reconstructed meshes demonstrates that the proposed approach produces more coherent edge directions and smoother edge flow while preserving overall geometric accuracy. These observations support the hypothesis that incorporating learned directional information into the FlexiCubes optimization process can improve mesh quality without sacrificing reconstruction fidelity.
+Although the normal deviation metric shows only minor differences between the two methods, the proposed approach consistently achieves lower edge-direction error across all mesh resolutions. Together with the improvements in RMS and Hausdorff distance, these results indicate that the proposed topology-aware optimization preserves geometric fidelity while generating meshes with more consistent edge-flow structures suitable for downstream modeling and animation.
 
 	
 \end{document}

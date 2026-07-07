@@ -123,13 +123,7 @@ TRELLIS employs structured latent representations generated through Transformer-
 
 Traditional three-dimensional models are commonly represented as polygonal meshes consisting of vertices, edges, and faces. While this representation is convenient for rendering and editing, it is often difficult to optimize directly within learning-based systems. Consequently, many modern reconstruction and generation methods employ implicit representations instead.
 
-An implicit surface is defined as the set of points satisfying
-
-\[
-f(\mathbf{x}) = c,
-\]
-
-where $f(\mathbf{x})$ is a scalar-valued function and $c$ is a predefined isovalue. The resulting surface corresponds to the level set of the function. In many applications, particularly Signed Distance Fields (SDFs), the surface is represented by the zero-level set where $c=0$.
+An implicit surface is defined as the set of points satisfying $f(\mathbf{x}) = c$ where $f(\mathbf{x})$ is a scalar-valued function and $c$ is a predefined isovalue. The resulting surface corresponds to the level set of the function. In many applications, particularly Signed Distance Fields (SDFs), the surface is represented by the zero-level set where $c=0$.
 
 Implicit representations offer several advantages. They provide continuous geometric descriptions, naturally support topology changes, and can represent complex structures without explicitly storing connectivity information. These properties have led to widespread adoption in neural reconstruction and generative modeling systems.
 
